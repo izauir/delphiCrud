@@ -5,13 +5,13 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, uClienteController, uClienteModel, uDmConexao, ADODB,
-  ComCtrls;
+  ComCtrls, Gauges;
 
 type
   TfrmBaixarRelatorios = class(TForm)
     rgTiposRelatorio: TRadioGroup;
     btnBaixar: TButton;
-    pbBarraProgresso: TProgressBar;
+    Gauge: TGauge;
     procedure btnBaixarClick(Sender: TObject);
   private
     { Private declarations }
@@ -42,7 +42,7 @@ end;
 procedure TfrmBaixarRelatorios.relatorioTxt;
 var
   Arquivo : TextFile;
-  TotalRegistros, RegistroAtual: Integer;
+  totalRegistros, registroAtual: Integer;
 begin
   try
     AssignFile(Arquivo, 'Clientes.txt');
@@ -52,10 +52,9 @@ begin
     quPesquisar := clienteController.Detalhar(objCliente);
 
     // Inicializa a barra de progresso
-    TotalRegistros := quPesquisar.RecordCount;
-    RegistroAtual := 0;
-    pbBarraProgresso.Max := TotalRegistros;
-    pbBarraProgresso.Position := RegistroAtual;
+    totalRegistros := quPesquisar.RecordCount;
+    registroAtual := 0;
+    Gauge.Progress := 0;
 
     with quPesquisar, objCliente do
     begin
@@ -69,22 +68,21 @@ begin
         Telefone := FieldByName('telefone').AsString;
 
         // Escreve os dados do cliente no arquivo
-        WriteLn(Arquivo, Format('%-2d;%-50s;%-2s;%-4s;%-14s;%-11s',
+        WriteLn(Arquivo, Format('%-5d %-50s %-3s %-5s %-15s %-11s',
         [ID, Nome, Genero, TipoDocumento, Documento, Telefone]));
 
         // Atualiza a barra de progresso
-        Inc(RegistroAtual);
-        pbBarraProgresso.Position := RegistroAtual;
+        Inc(registroAtual);
+        Gauge.Progress := Round(registroAtual/totalRegistros * 100);
 
         Next;
       end;
     end;
     // Fecha o arquivo
     CloseFile(Arquivo);
-    MessageDlg('Relatório em TXT emitido!', mtInformation, [mbOK], 0);
-    pbBarraProgresso.Position := 0;
+    Application.MessageBox('Relatório emitido com sucesso!', 'Aviso', MB_ICONINFORMATION + MB_OK);
   except
-    MessageDlg('Erro ao gerar relatório!', mtError,[mbOK], 0);
+    Application.MessageBox('Erro ao gerar relatório!', 'Erro', MB_ICONERROR + MB_OK);
     Exit;
   end;
 end;
