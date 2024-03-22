@@ -16,11 +16,12 @@ type
     procedure btnImportarClick(Sender: TObject);
   private
     { Private declarations }
+
     objCliente: TClienteModel;
   public
     { Public declarations }
   end;
-  
+
 var
   frmImportarRelatorios: TfrmImportarRelatorios;
 
@@ -117,5 +118,6 @@ begin
     CloseFile(Arquivo);
   end;
 end;
+
 
 end.

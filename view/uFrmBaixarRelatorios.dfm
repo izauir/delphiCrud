@@ -16,6 +16,13 @@ object frmBaixarRelatorios: TfrmBaixarRelatorios
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
+  object Gauge: TGauge
+    Left = 69
+    Top = 125
+    Width = 140
+    Height = 20
+    Progress = 0
+  end
   object rgTiposRelatorio: TRadioGroup
     Left = 48
     Top = 16
@@ -44,12 +51,5 @@ object frmBaixarRelatorios: TfrmBaixarRelatorios
     ParentFont = False
     TabOrder = 1
     OnClick = btnBaixarClick
-  end
-  object pbBarraProgresso: TProgressBar
-    Left = 64
-    Top = 128
-    Width = 150
-    Height = 17
-    TabOrder = 2
   end
 end

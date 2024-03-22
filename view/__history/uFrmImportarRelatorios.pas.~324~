@@ -4,19 +4,18 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, uClienteModel, StdCtrls, ExtCtrls, ComCtrls, Contnrs;
+  Dialogs, uClienteModel, StdCtrls, ExtCtrls, ComCtrls, Contnrs, Gauges;
 
 type
   TfrmImportarRelatorios = class(TForm)
     rgTiposRelatorio: TRadioGroup;
-    pbBarraProgresso: TProgressBar;
     odSubirArquivo: TOpenDialog;
     btnImportar: TButton;
+    Gauge: TGauge;
     procedure importarTxt;
     procedure btnImportarClick(Sender: TObject);
   private
     { Private declarations }
-
     objCliente: TClienteModel;
   public
     { Public declarations }
@@ -45,6 +44,7 @@ var
   listaErroId: TStringList;
   listaObjCliente: TObjectList;
   objClienteController: TClienteController;
+  linhaAtual, totalLinhas: Integer;
 begin
   try
     odSubirArquivo.Filter := 'Arquivos de texto|*.txt';
@@ -54,53 +54,69 @@ begin
 
        listaObjCliente := TObjectList.Create; // Inicializa a lista
        objClienteController := TClienteController.Create; // Inicializa o objeto
-       errosId := EmptyStr; //Boa prática, zerar a variável
+       errosId := EmptyStr; // Boa prática, zerar a variável
 
-      try
+       totalLinhas := 0;
+       Gauge.Progress := 0;
+       while not Eof(Arquivo) do
+       begin
+         ReadLn(Arquivo, Linha);
+         Inc(totalLinhas);
+       end;
+       Reset(Arquivo);
+
+       try
         While not Eof(Arquivo) do
         begin
           ReadLn(Arquivo, Linha);
 
-          {Copy, pega a posição inicial(de uma String), até a quantidade de
-          caracteres que definir.}
-          //TRIM: Tira os espaços em branco
+          { Copy, pega a posição inicial (de uma String), até a quantidade de
+            caracteres que definir. }
+          // TRIM: Tira os espaços em branco
           objCliente := TClienteModel.Create; // Cria um novo objeto
 
-          {Passando o ID antes para conseguir popular o objeto e meu buscarPorID
-          ter a informação da linha do arquivo ID, para conseguir executar a
-          função}
-
+          { Passando o ID antes para conseguir popular o objeto e meu buscarPorID
+            ter a informação da linha do arquivo ID, para conseguir executar a
+            função }
           With objCliente do
           begin
             ID := StrToInt(Trim(Copy(Linha, 1, 5)));
-            if not objClienteController.buscarPorId(objCliente) then begin
-               ObjCliente.Nome          := Trim(Copy(Linha, 5, 50));
-               ObjCliente.Genero        := Trim(Copy(Linha, 56, 3));
-               ObjCliente.TipoDocumento := Trim(Copy(Linha, 59, 5));
-               ObjCliente.Documento     := Trim(Copy(Linha, 64, 15));
-               ObjCliente.Telefone      := Trim(Copy(Linha, 79, 11));
+            if not objClienteController.buscarPorId(objCliente) then
+            begin
+              ObjCliente.Nome          := Trim(Copy(Linha, 5, 50));
+              ObjCliente.Genero        := Trim(Copy(Linha, 56, 3));
+              ObjCliente.TipoDocumento := Trim(Copy(Linha, 59, 5));
+              ObjCliente.Documento     := Trim(Copy(Linha, 64, 15));
+              ObjCliente.Telefone      := Trim(Copy(Linha, 79, 11));
 
-               listaObjCliente.Add(objCliente); // Adiciona o objeto à lista
+              listaObjCliente.Add(objCliente); // Adiciona o objeto à lista
             end
-            else begin
-               errosId := errosId + IntToStr(ObjCliente.ID) + Chr(13);
+            else
+            begin
+              errosId := errosId + IntToStr(ObjCliente.ID) + Chr(13);
             end;
+
+            // Atualiza a barra de progresso
+            Inc(linhaAtual);
+            Gauge.Progress := Round(linhaAtual/totalLinhas * 100);
           end;
         end;
+
         if errosId <> EmptyStr then
            ShowMessage('Os IDS respectivos já existem:' + Chr(13) + errosId);
 
         if objClienteController.gravarLista(listaObjCliente) then
-           ShowMessage(IntToStr(listaObjCliente.Count) + ' registros adicionados!');
+           Application.MessageBox(PChar(IntToStr(listaObjCliente.Count) + ' registros adicionados!'), 'Aviso', MB_ICONINFORMATION + MB_OK);
       except
-      MessageDlg('Erro ao importar relatório!', mtError,[mbOK], 0);
-      Exit;
+        Application.MessageBox('Erro ao importar relatório!', 'Erro', MB_ICONERROR + MB_OK);
+        Exit;
+      end;
     end;
-  end;
   finally
     odSubirArquivo.Free;
     CloseFile(Arquivo);
   end;
 end;
+
 
 end.

@@ -23,6 +23,7 @@ object frmBaixarRelatorios: TfrmBaixarRelatorios
     Height = 89
     BiDiMode = bdLeftToRight
     Columns = 2
+    ItemIndex = 0
     Items.Strings = (
       'EXCEL'
       'TXT')

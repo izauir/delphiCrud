@@ -16,11 +16,12 @@ type
     procedure btnImportarClick(Sender: TObject);
   private
     { Private declarations }
+
     objCliente: TClienteModel;
   public
     { Public declarations }
   end;
-  
+
 var
   frmImportarRelatorios: TfrmImportarRelatorios;
 
@@ -48,24 +49,25 @@ var
 begin
   try
     odSubirArquivo.Filter := 'Arquivos de texto|*.txt';
-    if odSubirArquivo.Execute then begin
-       AssignFile(Arquivo, odSubirArquivo.FileName);
-       Reset(Arquivo);
+    if odSubirArquivo.Execute then 
+    begin
+      AssignFile(Arquivo, odSubirArquivo.FileName);
+      Reset(Arquivo);
 
-       listaObjCliente := TObjectList.Create; // Inicializa a lista
-       objClienteController := TClienteController.Create; // Inicializa o objeto
-       errosId := EmptyStr; // Boa prática, zerar a variável
+      listaObjCliente := TObjectList.Create; // Inicializa a lista
+      objClienteController := TClienteController.Create; // Inicializa o objeto
+      errosId := EmptyStr; // Boa prática, zerar a variável
 
-       totalLinhas := 0;
-       Gauge.Progress := 0;
-       while not Eof(Arquivo) do
-       begin
-         ReadLn(Arquivo, Linha);
-         Inc(totalLinhas);
-       end;
-       Reset(Arquivo);
+      totalLinhas := 0;
+      Gauge.Progress := 0;
+      while not Eof(Arquivo) do
+      begin
+        ReadLn(Arquivo, Linha);
+        Inc(totalLinhas);
+      end;
+      Reset(Arquivo);
 
-       try
+      try
         While not Eof(Arquivo) do
         begin
           ReadLn(Arquivo, Linha);
@@ -81,7 +83,7 @@ begin
           With objCliente do
           begin
             ID := StrToInt(Trim(Copy(Linha, 1, 5)));
-            if not objClienteController.buscarPorId(objCliente) then
+            if not objClienteController.buscarPorId(objCliente) then 
             begin
               ObjCliente.Nome          := Trim(Copy(Linha, 5, 50));
               ObjCliente.Genero        := Trim(Copy(Linha, 56, 3));
@@ -91,7 +93,7 @@ begin
 
               listaObjCliente.Add(objCliente); // Adiciona o objeto à lista
             end
-            else
+            else 
             begin
               errosId := errosId + IntToStr(ObjCliente.ID) + Chr(13);
             end;
@@ -101,12 +103,12 @@ begin
             Gauge.Progress := Round(linhaAtual/totalLinhas * 100);
           end;
         end;
-
+        
         if errosId <> EmptyStr then
-           ShowMessage('Os IDS respectivos já existem:' + Chr(13) + errosId);
+          ShowMessage('Os IDS respectivos já existem:' + Chr(13) + errosId);
 
         if objClienteController.gravarLista(listaObjCliente) then
-           Application.MessageBox(PChar(IntToStr(listaObjCliente.Count) + ' registros adicionados!'), 'Aviso', MB_ICONINFORMATION + MB_OK);
+          Application.MessageBox(PChar(IntToStr(listaObjCliente.Count) + ' registros adicionados!'), 'Aviso', MB_ICONINFORMATION + MB_OK);
       except
         Application.MessageBox('Erro ao importar relatório!', 'Erro', MB_ICONERROR + MB_OK);
         Exit;
@@ -117,5 +119,6 @@ begin
     CloseFile(Arquivo);
   end;
 end;
+
 
 end.
