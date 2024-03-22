@@ -81,6 +81,8 @@ begin
                ObjCliente.Telefone      := Trim(Copy(Linha, 79, 11));
 
                listaObjCliente.Add(objCliente); // Adiciona o objeto à lista
+
+               //teste
             end
             else begin
                errosId := errosId + IntToStr(ObjCliente.ID) + Chr(13);
