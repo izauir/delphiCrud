@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/03/15 09:08:47.423.pas,C:\Users\supor\OneDrive\Documentos\RAD Studio\Projects\Unit2.pas=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\view\uFrmPrincipal.pas</Transaction>
+    <Transaction>2024/03/15 09:08:47.423.dfm,C:\Users\supor\OneDrive\Documentos\RAD Studio\Projects\Unit2.dfm=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\view\uFrmPrincipal.dfm</Transaction>
+    <Transaction>2024/03/15 09:08:58.303.dproj,C:\Users\supor\OneDrive\Documentos\RAD Studio\Projects\Project2.dproj=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\ExempoMVCBom.dproj</Transaction>
+    <Transaction>2024/03/15 09:11:33.262.pas,C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\Unit1.pas=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\view\uFrmCadastrarCliente.pas</Transaction>
+    <Transaction>2024/03/15 09:11:33.262.dfm,C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\Unit1.dfm=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\view\uFrmCadastrarCliente.dfm</Transaction>
+    <Transaction>2024/03/15 09:57:17.971.pas,C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\Unit1.pas=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\model\uClienteModel.pas</Transaction>
+    <Transaction>2024/03/15 09:58:37.938.pas,C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\Unit1.pas=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\controller\uClienteController.pas</Transaction>
+    <Transaction>2024/03/15 10:05:26.925.pas,C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\Unit1.pas=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\dao\uDmConexao.pas</Transaction>
+    <Transaction>2024/03/15 10:05:26.925.dfm,C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\Unit1.dfm=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\dao\uDmConexao.dfm</Transaction>
+    <Transaction>2024/03/15 10:06:39.656.pas,C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\Unit1.pas=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\dao\uDmCliente.pas</Transaction>
+    <Transaction>2024/03/15 10:06:39.656.dfm,C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\Unit1.dfm=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\dao\uDmCliente.dfm</Transaction>
+    <Transaction>2024/03/19 11:52:19.899.pas,C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\Unit1.pas=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\view\uFrmBaixarRelatorios.pas</Transaction>
+    <Transaction>2024/03/19 11:52:19.899.dfm,C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\Unit1.dfm=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\view\uFrmBaixarRelatorios.dfm</Transaction>
+    <Transaction>2024/03/20 13:23:44.262.pas,C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\Unit1.pas=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\view\uFrmImportarRelatorios.pas</Transaction>
+    <Transaction>2024/03/20 13:23:44.262.dfm,C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\Unit1.dfm=C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\view\uFrmImportarRelatorios.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

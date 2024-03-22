@@ -1,0 +1,29 @@
+object dmCliente: TdmCliente
+  OldCreateOrder = False
+  Height = 119
+  Width = 345
+  object sqlPesquisar: TADOQuery
+    Connection = dmConexao.sqlConexao
+    Parameters = <>
+    Left = 40
+    Top = 32
+  end
+  object sqlInserir: TADOQuery
+    Connection = dmConexao.sqlConexao
+    Parameters = <>
+    Left = 120
+    Top = 32
+  end
+  object sqlAlterar: TADOQuery
+    Connection = dmConexao.sqlConexao
+    Parameters = <>
+    Left = 200
+    Top = 32
+  end
+  object sqlExcluir: TADOQuery
+    Connection = dmConexao.sqlConexao
+    Parameters = <>
+    Left = 280
+    Top = 32
+  end
+end
