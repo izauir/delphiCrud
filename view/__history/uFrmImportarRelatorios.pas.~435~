@@ -100,6 +100,7 @@ begin
 
            objCliente.Telefone      := Trim(Cells[5, linhaPlanilha]);
 
+
            listaObjCliente.Add(objCliente);
         end else begin
            Erros := Erros + IntToStr(ObjCliente.ID) + ': ID já existente!' + Chr(13);

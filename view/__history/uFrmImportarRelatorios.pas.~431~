@@ -91,20 +91,17 @@ begin
            objCliente.Genero        := Trim(Cells[2, linhaPlanilha]);
            objCliente.tipoDocumento := Trim(Cells[3, linhaPlanilha]);
 
-           if not CheckCPFdv(objCliente.Documento) then begin
-              erros := erros + IntToStr(objCliente.ID) + ': Documento inválido!' + Chr(13);
-           end
-           else begin
-              objCliente.Documento  := Trim(Cells[4, linhaPlanilha]);
-           end;
+          if not CheckCPFdv(objCliente.Documento) then
+             erros := erros + IntToStr(objCliente.ID) + ': Documento inválido!' + Chr(13);
 
-           objCliente.Telefone      := Trim(Cells[5, linhaPlanilha]);
+          objCliente.Documento     := Trim(Cells[4, linhaPlanilha]);
+          objCliente.Telefone      := Trim(Cells[5, linhaPlanilha]);
 
-           listaObjCliente.Add(objCliente);
+          listaObjCliente.Add(objCliente);
         end else begin
-           Erros := Erros + IntToStr(ObjCliente.ID) + ': ID já existente!' + Chr(13);
+          Erros := Erros + IntToStr(ObjCliente.ID) + ': ID já existente!' + Chr(13);
         end;
-        Gauge.Progress := Round(progressoAtual/progressoTotal * 100);
+          Gauge.Progress := Round(progressoAtual/progressoTotal * 100);
       end;
       
       if Erros <> EmptyStr then

@@ -87,24 +87,21 @@ begin
 
           //Utilizar Agrid e Cells para pegar informações de excel
         if not objClienteController.buscarPorId(objCliente) then begin
-           objCliente.Nome          := Trim(Cells[1, linhaPlanilha]);
-           objCliente.Genero        := Trim(Cells[2, linhaPlanilha]);
-           objCliente.tipoDocumento := Trim(Cells[3, linhaPlanilha]);
+          objCliente.Nome          := Trim(Cells[1, linhaPlanilha]);
+          objCliente.Genero        := Trim(Cells[2, linhaPlanilha]);
+          objCliente.tipoDocumento := Trim(Cells[3, linhaPlanilha]);
 
-           if not CheckCPFdv(objCliente.Documento) then begin
-              erros := erros + IntToStr(objCliente.ID) + ': Documento inválido!' + Chr(13);
-           end
-           else begin
-              objCliente.Documento  := Trim(Cells[4, linhaPlanilha]);
-           end;
+          if not CheckCPFdv(objCliente.Documento) then
+          erros := erros + IntToStr(objCliente.ID) + ': Documento inválido!' + Chr(13);
 
-           objCliente.Telefone      := Trim(Cells[5, linhaPlanilha]);
+          objCliente.Documento     := Trim(Cells[4, linhaPlanilha]);
+          objCliente.Telefone      := Trim(Cells[5, linhaPlanilha]);
 
-           listaObjCliente.Add(objCliente);
+          listaObjCliente.Add(objCliente);
         end else begin
-           Erros := Erros + IntToStr(ObjCliente.ID) + ': ID já existente!' + Chr(13);
+          Erros := Erros + IntToStr(ObjCliente.ID) + ': Documento inválido!' + Chr(13);
         end;
-        Gauge.Progress := Round(progressoAtual/progressoTotal * 100);
+          Gauge.Progress := Round(progressoAtual/progressoTotal * 100);
       end;
       
       if Erros <> EmptyStr then

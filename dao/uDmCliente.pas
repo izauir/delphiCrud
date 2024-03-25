@@ -210,6 +210,7 @@ begin
     begin
       for I := 0 to listaObjCliente.Count - 1 do
       begin
+        //Abrir minha lista (pegando os objetos dentro da lista)
         objCliente := TClienteModel(listaObjCliente[I]);
         Close;
         sql.Clear;

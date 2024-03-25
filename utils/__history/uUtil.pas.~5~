@@ -2385,8 +2385,7 @@ begin
      Result := True;
 end;
 
-//Ler excel
-Function XlsToStringGrid(AGrid: TStringGrid; AXLSFile: string): Boolean;
+Function TPlanilha.XlsToStringGrid(AGrid: TStringGrid; AXLSFile: string): Boolean;
 const
   xlCellTypeLastCell = $0000000B;
 var
@@ -2434,7 +2433,6 @@ begin
     end;
   end;
 end;
-
 end.
 
 

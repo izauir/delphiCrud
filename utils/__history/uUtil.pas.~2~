@@ -103,7 +103,6 @@ Function  anoBissexto(ano : Integer): Boolean;
 Function  RetiraCaracteresEspeciaisExportacao(wLinha: String): String;
 Function  SoNumerosRecintos(wLinha: String): String;
 function  validaNumeroMaster(master: String): Boolean;
-Function  XlsToStringGrid(AGrid: TStringGrid; AXLSFile: string): Boolean;
 
 //Procedure GravaTraceMemo(memo: TMemo);
 //Procedure MontaDataSet(Var cdCodigos:TClientDataSet);
@@ -2062,94 +2061,6 @@ begin
   end;
 end;
 
-procedure imprimirPlanilha(instrucaoSQl: TADOQuery; title, tipo: String);
-var
-  Linha, Coluna: Integer;
-  ValorCampo: String;
-  Celula: Variant;
-  MSExcel, ExcelBook, ExcelSheet: OleVariant;
-begin
-  MSExcel    := CreateOLEObject( 'Excel.Application' ); // Cria uma aplicação do Excel
-  ExcelBook  := MSExcel.WorkBooks.Add;                  // Adiciona uma pasta na planilha
-  ExcelSheet := ExcelBook.WorkSheets.Add;
-  ExcelSheet.Range['A1','H1'].Merge(EmptyParam);
-  ExcelSheet.Cells[ 1,1 ].Font.Size      := 12;
-  ExcelSheet.Cells[ 1,1 ].Interior.Color := $00ffcf9c;
-  ExcelSheet.Cells[ 1,1 ].Font.Bold      := True;
-  Celula       := ExcelSheet.Cells[ 1,1 ];
-  Celula.Value := title;
-  Linha := 3; // Dados são inseridos a partir desta linha
-  Screen.Cursor := crHourGlass;
-
-  instrucaoSQl.Open;
-
-  if (instrucaoSQl.RecordCount > 0) then begin
-    for Coluna := 1 to instrucaoSQL.FieldCount do
-    begin
-      ValorCampo := instrucaoSQL.Fields[coluna - 1].DisplayLabel;
-      MSExcel.cells[2,coluna] := ValorCampo; // Nome das colunas
-      MSExcel.Cells[2,coluna].Font.Color := clWhite;
-      MSExcel.Cells[2,coluna].Font.Bold := True;
-      MSExcel.Cells[2,coluna].Interior.Color := clBlue;
-    end;
-
-
-    For Coluna := 0 to (instrucaoSQl.FieldCount - 1) do
-    begin
-      MSExcel.Cells[Linha,Coluna + 1] := instrucaoSQl.Fields[Coluna].DisplayLabel;
-      Case instrucaoSQl.Fields[Coluna].DataType Of
-        ftDate    : MSExcel.Columns.Columns[ Coluna + 1 ].NumberFormat := 'dd/mm/aaaa';
-        ftDateTime: MSExcel.Columns.Columns[ Coluna + 1 ].NumberFormat := 'dd/mm/aaaa';
-        ftString  : MSExcel.Columns.Columns[ Coluna + 1 ].NumberFormat := '@';
-        ftCurrency: MSExcel.Columns.Columns[ Coluna + 1 ].NumberFormat := '###0,00';
-        ftFloat   : MSExcel.Columns.Columns[ Coluna + 1 ].NumberFormat := '###0';
-        ftBCD     : MSExcel.Columns.Columns[ Coluna + 1 ].NumberFormat := '@';
-        ftSmallint: MSExcel.Columns.Columns[ Coluna + 1 ].NumberFormat := '###0,00';
-      end;
-    end;
-
-    instrucaoSQl.First;
-    instrucaoSQl.DisableControls;
-    try
-      while not instrucaoSQl.Eof do
-      begin
-        try
-          for Coluna := 0 to (instrucaoSQL.FieldCount - 1) do  begin
-            if not VarIsEmpty(instrucaoSQl.Fields[coluna].Value) then
-              MSExcel.Cells[Linha,Coluna + 1] := Trim(VarToStr(instrucaoSQl.Fields[Coluna].Value))
-            else
-              MSExcel.Cells[Linha,Coluna + 1] := instrucaoSQl.Fields[Coluna].Value;
-
-            if tipo = 'Voo' then begin
-               if (coluna = 19) or (coluna = 21) or (coluna = 24) or (coluna = 26) then
-                  MSExcel.Cells[Linha,Coluna + 1] := trocaVirgula(instrucaoSQl.Fields[coluna].Value);
-            end;
-
-            if Trim(tipo) = 'Tratamento' then begin
-               if (coluna = 4) and (Trim(instrucaoSQl.Fields[coluna].Value) <> EmptyStr) then
-                  MSExcel.Cells[Linha,Coluna + 1] := 'TC - ' + Trim(instrucaoSQl.Fields[coluna].Value);
-            end;
-
-            if Trim(tipo) = 'Total' then begin
-               if coluna = 4 then
-                  MSExcel.Cells[Linha,Coluna + 1] := FloatToStr(StrToFloat(instrucaoSQl.Fields[coluna].Value) * 2.2046);
-            end;
-
-          end;
-          instrucaoSQl.Next;
-          Inc(Linha);
-        finally
-        end;
-      end;
-    finally
-      instrucaoSQl.EnableControls;
-    end;
-  end;
-  MSExcel.Columns.AutoFit;
-  MSExcel.Visible := True;
-  Screen.Cursor := crDefault;
-end;
-
 Function VerificaLetras(Texto:String):Boolean;
 var
 Resultado:Boolean;
@@ -2384,57 +2295,6 @@ begin
   else
      Result := True;
 end;
-
-//Ler excel
-Function XlsToStringGrid(AGrid: TStringGrid; AXLSFile: string): Boolean;
-const
-  xlCellTypeLastCell = $0000000B;
-var
-  XLApp, Sheet: OLEVariant;
-  RangeMatrix: Variant;
-  x, y, k, r: Integer;
-begin
-  Result:=False;
-  //Cria Excel- OLE Object
-  XLApp:=CreateOleObject('Excel.Application');
-  try
-    //Esconde Excel
-    XLApp.Visible:=False;
-    //Abre o Workbook
-    XLApp.Workbooks.Open(AXLSFile);
-    Sheet:=XLApp.Workbooks[ExtractFileName(AXLSFile)].WorkSheets[1];
-    Sheet.Cells.SpecialCells(xlCellTypeLastCell, EmptyParam).Activate;
-    //Pegar o número da última linha
-    x:=XLApp.ActiveCell.Row;
-    //Pegar o número da última coluna
-    y:=XLApp.ActiveCell.Column;
-    //Seta Stringgrid linha e coluna
-    AGrid.RowCount:=x;
-    AGrid.ColCount:=y;
-    //totLinhas  := x;
-    //totColunas := y;
-    //Associaca a variant WorkSheet com a variant do Delphi
-    RangeMatrix:=XLApp.Range['A1', XLApp.Cells.Item[X, Y]].Value;
-    //Cria o loop para listar os registros no TStringGrid
-    k:=1;
-    repeat
-      for r:=1 to y do
-          AGrid.Cells[(r - 1),(k - 1)]:=RangeMatrix[K, R];
-      Inc(k,1);
-    until k > x;
-    RangeMatrix:=Unassigned;
-  finally
-    //Fecha o Excel
-    if not VarIsEmpty(XLApp) then
-    begin
-      XLApp.Quit;
-      XLAPP:=Unassigned;
-      Sheet:=Unassigned;
-      Result:=True;
-    end;
-  end;
-end;
-
 end.
 
 

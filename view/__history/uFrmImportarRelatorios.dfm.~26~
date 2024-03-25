@@ -15,6 +15,13 @@ object frmImportarRelatorios: TfrmImportarRelatorios
   Position = poMainFormCenter
   PixelsPerInch = 96
   TextHeight = 13
+  object Gauge: TGauge
+    Left = 66
+    Top = 119
+    Width = 143
+    Height = 18
+    Progress = 0
+  end
   object rgTiposRelatorio: TRadioGroup
     Left = 45
     Top = 24
@@ -29,13 +36,6 @@ object frmImportarRelatorios: TfrmImportarRelatorios
     ParentBiDiMode = False
     TabOrder = 0
   end
-  object pbBarraProgresso: TProgressBar
-    Left = 61
-    Top = 119
-    Width = 150
-    Height = 17
-    TabOrder = 1
-  end
   object btnImportar: TButton
     Left = 96
     Top = 155
@@ -48,7 +48,7 @@ object frmImportarRelatorios: TfrmImportarRelatorios
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 2
+    TabOrder = 1
     OnClick = btnImportarClick
   end
   object odSubirArquivo: TOpenDialog

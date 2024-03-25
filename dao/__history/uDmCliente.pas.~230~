@@ -8,10 +8,9 @@ uses
 type
   TdmCliente = class(TDataModule)
     sqlPesquisar: TADOQuery;
-    sqlInserir: TADOQuery;
-    sqlAlterar: TADOQuery;
-    sqlExcluir: TADOQuery;
-    sqlListar: TADOQuery;
+    sqlConsulta : TADOQuery;
+    sqlGravar: TADOQuery;
+
   private
     { Private declarations }
   public
@@ -41,7 +40,7 @@ begin
   try
     uDmConexao.dmConexao.sqlConexao.BeginTrans;
 
-    With sqlAlterar do
+    With sqlGravar do
     begin
       Close;
       sql.Clear;
@@ -77,7 +76,7 @@ end;
 function TdmCliente.BuscarPorID(objCliente: TClienteModel): Boolean;
 begin
   try
-    With sqlPesquisar do
+    With sqlConsulta do
     begin
       Close;
       sql.Clear;
@@ -88,7 +87,7 @@ begin
       Open;
 
       //Se minha query retornar zero registros então
-      if sqlPesquisar.RecordCount = 0 then
+      if sqlConsulta.RecordCount = 0 then
         Result := False
       else
         Result := True;    
@@ -103,7 +102,7 @@ var
   txtSql : String;
 begin
   try
-    With sqlListar do
+    With sqlPesquisar do
     begin
       Close;
       sql.Clear;
@@ -128,7 +127,7 @@ begin
 
       Open;
     end;
-      Result := sqlListar;
+      Result := sqlPesquisar;
   except on E: Exception do
     MessageDlg('Erro ao detalhar cliente!' + sLineBreak + E.Message, mtError,[mbOK], 0)
   end;
@@ -137,7 +136,7 @@ end;
 function TdmCliente.Excluir(objCliente: TClienteModel): Boolean;
 begin
  try
-    With sqlExcluir do
+    With sqlGravar do
     begin
       Close;
       sql.Clear;
@@ -161,7 +160,7 @@ lembrando que preciso ter o Result como true ou false nas condições}
 function TdmCliente.Gravar(objCliente: TClienteModel): Boolean;
 begin
   try
-    With sqlInserir do
+    With sqlGravar do
     begin
       // Verificar se o ID já existe
      Pesquisar(objCliente);
@@ -207,7 +206,7 @@ var
   objCliente: TClienteModel;
 begin
   try
-    With sqlPesquisar do
+    With sqlGravar do
     begin
       for I := 0 to listaObjCliente.Count - 1 do
       begin

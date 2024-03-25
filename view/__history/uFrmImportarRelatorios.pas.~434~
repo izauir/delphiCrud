@@ -91,13 +91,10 @@ begin
            objCliente.Genero        := Trim(Cells[2, linhaPlanilha]);
            objCliente.tipoDocumento := Trim(Cells[3, linhaPlanilha]);
 
-           if not CheckCPFdv(objCliente.Documento) then begin
+           if not CheckCPFdv(objCliente.Documento) then
               erros := erros + IntToStr(objCliente.ID) + ': Documento inválido!' + Chr(13);
-           end
-           else begin
-              objCliente.Documento  := Trim(Cells[4, linhaPlanilha]);
-           end;
 
+           objCliente.Documento     := Trim(Cells[4, linhaPlanilha]);
            objCliente.Telefone      := Trim(Cells[5, linhaPlanilha]);
 
            listaObjCliente.Add(objCliente);
