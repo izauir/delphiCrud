@@ -40,6 +40,7 @@
       <DesignClass>TDataModule</DesignClass>
     </DCCReference>
     <DCCReference Include="model\uClienteModel.pas" />
+    <DCCReference Include="utils\uUtil.pas" />
     <DCCReference Include="view\uFrmBaixarRelatorios.pas">
       <Form>frmBaixarRelatorios</Form>
     </DCCReference>

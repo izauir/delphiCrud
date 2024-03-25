@@ -1,121 +1,113 @@
-unit Libwin;
+unit uUtil;
 
 interface
 
 uses
   SysUtils, WinTypes, WinProcs, Messages, Classes, Graphics, Controls,
   Forms, Dialogs, StdCtrls, Mask, FileCtrl, ExtCtrls, IniFiles,
-  DB, DBTables, Buttons, DBClient, cDataModulo, SHDocVw, ActiveX,
-  Math, Variants, ComObj, Shellapi, Winsock, Grids, DBGrids,
-  IdHashMessageDigest, StrUtils, ADODB, IdCoderMIME;
+  DB, DBTables, Buttons, DBClient, SHDocVw, ActiveX, Math, Variants,
+  ComObj, Shellapi, Winsock, Grids, DBGrids, IdHashMessageDigest, ADODB,
+  StrUtils;
 
-Function CheckDV(cNum: string ; nLen: integer): Boolean;
-procedure Strzero(var cNum: String ; nLen: Integer);
-Function StrzeroF(cNum: String ; nLen: Integer):String;
-Function Replicate( const L: Integer; C: String ): String;
-Function CalculaCodeBar( Bco,Moeda,Vlr,NossoNum,Ag,CodCed,Cart,NumConv,DtVenc : String): String;
-Function CalculaLinDig( CodeBar: String): String;
-Function CalcDVCodBarGnr(cStr : String) : String;
-Function NPadR( const cExp: String; nLen: Integer ): String;
-Function NPadL( const cExp: String; nLen: Integer ): String;
-Function NTrimL( const S: String ): String;
-Function NTrimR( const S: String ): String;
-Function NTrim( const S: String ): String;
-Function RemoveMask(const cNum : String): String;
-Function FormataValor(const cNum: String): String;
-Function RetornaNumero(const cNum : String): LongInt;
-Function PrinterOnLine : Boolean;
-Function CheckOrgao(cCod: String): String;
-Function CheckIEdv(cStr: String): Boolean;
-Function CheckCPFdv(const CPF: string): boolean;
-Function CheckCGCdv(const CGC: string): boolean;
-Function tData(data: String):String;
-Function tDataI(data: String):String;
-Function tDataR(data: String):String;
-Function tDataL(data: String):String;
-Function tDataB(data: String): String;
-Function tDataU(data: String): String;
-Function tDataIATA(data: String): String;
-Function  tDataS(data: String): String;
-procedure FileCopy(const FromFile, ToFile: String);
-Procedure GravaTraceMemo(memo: TMemo);
-Procedure MontaDataSet(Var cdCodigos:TClientDataSet);
-Function Autenticacao(cdCodigos:TClientDataSet; codigo: String): Boolean;
-Function CodigoAutenticacao(cdCodigos:TClientDataSet; codigo: String):Boolean;
-Function GravaMulta(cdCodigos:TClientDataSet; codigo: String):Boolean;
-Function GravaTabela(cdCodigos:TClientDataSet;codigo,Tabela: String):Boolean;
-Function DiretorioProcessamento(servername:String):String;
-Function Encrypt(const S: String; Key: Word): String;
-Function Decrypt(const S: String; Key: Word): String;
-Function Executa(Arquivo: String): Integer;
-Function CalcDV(cNum: string ; nLen: Integer): String;
-Function CalcDV237(cNum: string ; nLen: Integer): String;
-Function RemoveAcentos(acentuacao: string): string;
-Function ChecaCidade(ncidade: string): string;
-Function RemoveZeros(const cNum: String): String;
-Function RetiraCaracteres(wLinha: String): String;
-Function RetiraCaracteresEspeciais(wLinha: String): String;
-Function IsCharEspec( Str: String):Boolean;
-Function Gerapercentual(valor:real;Percent:Real):real;
-Function Arredonda(Valor: Real): Real;
 Procedure ImprimeIE(WB: TWebBrowser);
 procedure CorEntrada(Sender: TObject);
-Function TiraDez(Hora: String):String;
-Function FormataCPFCNPJ(fDoc: String): String;
-Function SoNumeros(wLinha: String): String;
+procedure FileCopy(const FromFile, ToFile: String);
+procedure Strzero(var cNum: String ; nLen: Integer);
 procedure OdsToXls(var vDir: String);
-Function DefinirPropriedadesOpenOffice(PropName: string; PropValue: variant): variant;
 procedure OdsConverteXls(vDirProc,vArqOds,VArqXls: String);
 procedure JpgConvertePdf(vDirProc,vArqJpg,VArqPdf: String);
-Function Modulo10(S: String): String;
-Function Modulo11(Numero: String): String;
-Function killtask(ExeFileName: string): Integer;
-Function RetornaLetras(sStr: string) : string;
-Function SoLetrasNumeros(wLinha: String): String;
-Function FStrToString(valor: String):String;
-Function ContaPalavasFromFile (const arquivo, palavra : string) : integer;
-Function ContaPalavras (fonte, palavra : string) : integer;
-Function GetComputerNameFunc : string;
 Procedure DiaUtil(DataEnvio: TDateTime);
-Function  IncZeroDec(valor: String):String;
-Function GetIP:string;
-Function FormataLinhaDig10(wLinha: String): String;
-Function FormataLinhaDig11(wLinha: String): String;
-Function Consistencia(Formulario: Tform): Boolean;
 Procedure FormatXMLFile(const XmlFile:string);
-Function nomeXML(tipoArq: String;sequencia: Integer):String;
 procedure RemovePalavra(var origem: string; apagar: string);
-Function TruncaValor(Value: Real; Casas: Integer): Real;
-Function PreencheZeroDireita(Texto: string; Quant: integer): String;
-Function checaEmail(email : String): Boolean;
 procedure Delay(MSec: Cardinal);
-Function tntParaFedex(remessa: String):String;
-Function verificaDiaUtil(dataIncial:TDateTime; dias_uteis:Integer):TDateTime;
-Function MD5File(const FileName: string): string;
-Function trocaPonto(Valor: string): String;
-Function trocaVirgula(Valor: string): String;
-Function SubstituiCaracteresEspeciais(wLinha: String): String;
-procedure GravarTexto(SalvarComo, Texto: WideString);
-Function duasPalavras(frase: String): String;
-Function padronizaCEP(cep: String): String;
-Function trocaEspaco(frase: String): String;
-Function arredondaComPonto(texto: String): String;
-Function extenso(valor: real): string;
-Function anteriorDiaUtil (dData : TDateTime): TDateTime;
-Function ProximoDiaUtil (dData : TDateTime) : TDateTime;
-function montaLista(Memo: TMemo): String;
 Procedure ordenarTituloGrid(Grid : TDBGrid; Column : TColumn);
-Function formataTelefoneCelular(num: String): String;
-Function montaListaString(listaRemessas: TStringList): String;
-function tiraMinutos(num: Integer): string;
-function anoBissexto(ano: integer): Boolean;
-function base64_Encoding(fileName: String; out sErro: String): WideString;
-procedure imprimirPlanilha(instrucaoSQl: TADOQuery; title, tipo: String);
-function  JuntaPdfs(outPdf: string; files: TStringList): Integer;
+procedure GravarTexto(SalvarComo, Texto: WideString);
+function  CheckDV(cNum: string ; nLen: integer): Boolean;
+Function  StrzeroF(cNum: String ; nLen: Integer):String;
+function  Replicate( const L: Integer; C: String ): String;
+function  CalculaCodeBar( Bco,Moeda,Vlr,NossoNum,Ag,CodCed,Cart,NumConv,DtVenc : String): String;
+function  CalculaLinDig( CodeBar: String): String;
+function  CalcDVCodBarGnr(cStr : String) : String;
+function  NPadR( const cExp: String; nLen: Integer ): String;
+function  NPadL( const cExp: String; nLen: Integer ): String;
+function  NTrimL( const S: String ): String;
+function  NTrimR( const S: String ): String;
+function  NTrim( const S: String ): String;
+function  RemoveMask(const cNum : String): String;
+function  FormataValor(const cNum: String): String;
+function  RetornaNumero(const cNum : String): LongInt;
+function  PrinterOnLine : Boolean;
+function  CheckOrgao(cCod: String): String;
+function  CheckIEdv(cStr: String): Boolean;
+function  CheckCPFdv(const CPF: string): boolean;
+function  CheckCGCdv(const CGC: string): boolean;
+Function  tData(data: String):String;
+Function  tDataI(data: String):String;
+Function  tDataR(data: String):String;
+Function  tDataL(data: String):String;
+Function  tDataM(data: String): String;
+function  tDataS(data: String): String;
+function  tDataP(data: String): String;
+Function  Autenticacao(cdCodigos:TClientDataSet ;codigo: String): Boolean;
+Function  GravaMulta(cdCodigos:TClientDataSet; codigo: String):Boolean;
+Function  GravaTabela(cdCodigos:TClientDataSet;codigo,Tabela: String):Boolean;
+Function  DiretorioProcessamento(servername:String):String;
+Function  Encrypt(const S: String; Key: Word): String;
+Function  Decrypt(const S: String; Key: Word): String;
+Function  Executa(Arquivo: String): Integer;
+function  CalcDV(cNum: string ; nLen: Integer): String;
+function  CalcDV237(cNum: string ; nLen: Integer): String;
+function  RemoveAcentos(acentuacao: string): string;
+function  ChecaCidade(ncidade: string): string;
+function  RemoveZeros(const cNum: String): String;
+Function  RetiraCaracteres(wLinha: String): String;
+Function  RetiraCaracteresEspeciais(wLinha: String): String;
+function  IsCharEspec( Str: String):Boolean;
+Function  Gerapercentual(valor:real;Percent:Real):real;
+function  Arredonda(Valor: Real): Real;
+function  TiraDez(Hora: String):String;
+function  FormataCPFCNPJ(fDoc: String): String;
+Function  SoNumeros(wLinha: String): String;
+function  DefinirPropriedadesOpenOffice(PropName: string; PropValue: variant): variant;
+Function  Modulo10(S: String): String;
+Function  Modulo11(Numero: String): String;
+function  killtask(ExeFileName: string): Integer;
+Function  RetornaLetras(sStr: string) : string;
+Function  SoLetrasNumeros(wLinha: String): String;
+Function  FStrToString(valor: String):String;
+Function  ContaPalavasFromFile (const arquivo, palavra : string) : integer;
+Function  ContaPalavras (fonte, palavra : string) : integer;
+Function  GetComputerNameFunc : string;
+Function  IncZeroDec(valor: String):String;
+Function  GetIP:string;
+Function  FormataLinhaDig10(wLinha: String): String;
+Function  FormataLinhaDig11(wLinha: String): String;
+Function  Consistencia(Formulario: Tform): Boolean;
+Function  TruncaValor(Value: Real; Casas: Integer): Real;
+Function  ProximoDiaUtil (dData : TDateTime) : TDateTime;
+Function  PreencheZeroDireita(Texto: string; Quant: integer): String;
+Function  checaEmail(email : String): Boolean;
+Function  tntParaFedex(remessa: String):String;
+Function  verificaDiaUtil(dataIncial:TDateTime; dias_uteis:Integer):TDateTime;
+function  trocaPonto(Valor: string): String;
+function  trocaVirgula(Valor: String): String;
+function  tiraVirgula(Valor: String): String;
+Function  SubstituiCaracteresEspeciais(wLinha: String): String;
+Function  VerificaLetras(Texto:String):Boolean;
+function  duasPalavras(frase: String): String;
+function  montaLista(Memo: TMemo): String;
+function  montaListaString(listaRemessas: TStringList): String;
+Function  tiraMinutos(num: integer): string;
+Function  anoBissexto(ano : Integer): Boolean;
+Function  RetiraCaracteresEspeciaisExportacao(wLinha: String): String;
+Function  SoNumerosRecintos(wLinha: String): String;
+function  validaNumeroMaster(master: String): Boolean;
 
+//Procedure GravaTraceMemo(memo: TMemo);
+//Procedure MontaDataSet(Var cdCodigos:TClientDataSet);
+//Function nomeXML(tipoArq: String;sequencia: Integer):String;
 
 var
-  RetornoOK:boolean;
   OpenOffice: Variant;
 
 const
@@ -123,86 +115,24 @@ const
    C1 = 52845;
    C2 = 22719;
 
-   GUIA_IMPORTADA               = 0;
-   GUIA_GERADA_BB               = 1;
-   GUIA_AUTENTICADA_BB          = 2;
-   GUIA_REJEITADA_BB            = 3;
-   GUIA_IMPRESSA                = 4;
-   GUIA_NAO_RECEBE_AUTENTICACAO = 5;
+   { Produção }
+   //API_Recintos = 'http://p1044077.corp.ds.fedex.com:8083';
 
-   { Codigos de Controle  }
+   { Homologação }
+   API_Recintos = 'http://u1081299.corp.ds.fedex.com:8083';
+   //API_Recintos = 'http://localhost:8083';
 
-   GERA_REMESSA_PARA_COBRANCA       = 10;
-   NAO_GERA_REMESSA_PARA_COBRANCA   = 20;
-   ALTERACAO_SEM_MULTA_COM_COBRANCA = 30;
-   ALTERACAO_SEM_MULTA_SEM_COBRANCA = 31;
-   ALTERACAO_COM_MULTA_COM_COBRANCA = 40;
-   ALTERACAO_COM_MULTA_SEM_COBRANCA = 41;
-   CARTEIRA_18_SEM_REMESSA_COBRANCA = 21;
 
-   CARTEIRA_18_ALTERACAO_SEM_MULTA_SEM_REMESSA_COBRANCA = 32;
-   CARTEIRA_18_ALTERACAO_COM_MULTA_SEM_REMESSA_COBRANCA = 42;
-
-   DARF_DE_MULTA_TIPO1 = 50;
-   DARF_DE_MULTA_TIPO2 = 51;
-   DARF_DE_ANVISA      = 54;
-
-   SEM_AUTENTICACAO_SEM_COBRANCA = 52;
-   SEM_AUTENTICACAO_COM_COBRANCA = 53;
-   GNRE_SEM_DARF_SEM_COBRANCA    = 60;
-
-   DARF_REJEITADO = 55;
-   GNRE_REJEITADO = 61;
-   DARJ_REJEITADO = 71;
-
-   { Constante para evolução de versão }
-
-   VERSAO_DO_APLICATIVO  = 'COURIER SAT   v. 2.32.49';
-   ARQUIVO_INI           = 'COURIERSAT.INI';
-   DIRETORIO_BASE        = '\ARQUIVOS\';
-   CONECTA               = 'CONECTABD.INI';
-   TRIBUTO_DARJ          = 221;
-
-   { Constante para cocatenação de PDF }
-
-   GS_ARG_ENCODING_LOCAL = 0;
-   GS_ARG_ENCODING_UTF8 = 0;
-   e_Quit = -990;
-
-type
-  Targvs = array of pansichar;
-
-    TGSAPIrevision = packed record
-      product: PChar;
-      copyright: PChar;
-      revision: longint;
-      revisiondat: longint;
-    end;
-
-    PGSAPIrevision = ^TGSAPIrevision;
-    Pgs_main_instance = Pointer;
-    PPChar = array of PChar;
 
 implementation
 
-uses Windows, Cmain, TLHelp32, PsAPI, xmldom, XMLIntf, msxmldom, XMLDoc;
-
-function gsapi_new_instance(pinstance: Pgs_main_instance;
-  caller_handle: Pointer): Integer; stdcall; external 'gsdll32.dll';
-function gsapi_init_with_args(pinstance: Pgs_main_instance; argc: Integer;
-  argv: PPChar): Integer; stdcall; external 'gsdll32.dll';
-function gsapi_exit(pinstance: Pgs_main_instance): Integer; stdcall;
-  external 'gsdll32.dll';
-procedure gsapi_delete_instance(pinstance: Pgs_main_instance); stdcall;
-  external 'gsdll32.dll';
-function gsapi_set_arg_encoding(pinstance: Pgs_main_instance; ENCODING: Integer)
-  : Integer; stdcall; external 'gsdll32.dll';
+uses Windows, TLHelp32, PsAPI, xmldom, XMLIntf, msxmldom, XMLDoc;
 
 {-------------------------------------------------------
       Nome : CalcDVCodBarGnr
    Sintaxe : CalcDVCodBarGnr(cStr: String)
 --------------------------------------------------------}
-Function CalcDVCodBarGnr(cStr : String) : String;
+function CalcDVCodBarGnr(cStr : String) : String;
 var
   i : Byte;
   Peso, Tamanho, nCalc, j, Numero, Digito1, Digito2, Fator : Integer;
@@ -235,7 +165,7 @@ end;
    Sintaxe : CheckOrgao(cCod: String)
 --------------------------------------------------------}
 
-Function CheckOrgao(cCod: String): String;
+function CheckOrgao(cCod: String): String;
 var
    nCod: integer;
 begin
@@ -278,7 +208,7 @@ end;
    Sintaxe : PrinterOnLine
 --------------------------------------------------------}
 
-Function PrinterOnLine : Boolean;
+function PrinterOnLine : Boolean;
 Const
  PrnStInt : Byte = $17;
    StRq : Byte = $02;
@@ -302,7 +232,7 @@ End;
    Sintaxe : RetornaNumero(cNum: string)
 --------------------------------------------------------}
 
-Function RetornaNumero(const cNum: string): LongInt;
+function RetornaNumero(const cNum: string): LongInt;
 var
   i : byte;
   z : String;
@@ -322,7 +252,7 @@ end;
    Sintaxe : FormataValor(cNum: string)
 --------------------------------------------------------}
 
-Function FormataValor(const cNum: String): String;
+function FormataValor(const cNum: String): String;
 var
   cVal, cResultado : String;
   cDecimal : String[2];
@@ -358,7 +288,7 @@ end;
    Sintaxe : RemoveMask(cNum: string)
 --------------------------------------------------------}
 
-Function RemoveMask(const cNum: string): String;
+function RemoveMask(const cNum: string): String;
 var
   i : byte;
   z : String;
@@ -380,7 +310,7 @@ begin
 end;
 
 { LTRIM() }
-Function NTrimL( const S: String ): String;
+function NTrimL( const S: String ): String;
 var
    STrim: String;
 begin
@@ -392,7 +322,7 @@ begin
 end;
 
 { RTRIM() }
-Function NTrimR( const S: String ): String;
+function NTrimR( const S: String ): String;
 var
    STrim: String;
 begin
@@ -404,7 +334,7 @@ begin
 end;
 
 { ALLTRIM() }
-Function NTrim( const S: String ): String;
+function NTrim( const S: String ): String;
 begin
    NTrim := NTrimL( NTrimR( S ) );
 end;
@@ -414,7 +344,7 @@ end;
    Sintaxe : CheckDV(cNum: string ; nLen: integer)
 --------------------------------------------------------}
 
-Function CheckDV(cNum: string ; nLen: integer): boolean;
+function CheckDV(cNum: string ; nLen: integer): boolean;
 var
   nDig, nMult, nCalc, i, z, j,u : integer;
 begin
@@ -454,7 +384,7 @@ end;
    Sintaxe : CalcDV(cNum: string ; nLen: integer)
 --------------------------------------------------------}
 
-Function CalcDV(cNum: string ; nLen: Integer): String;
+function CalcDV(cNum: string ; nLen: Integer): String;
 var
   nCalc, i, Numero, j, Tamanho, Peso : integer;
 begin
@@ -488,7 +418,7 @@ end;
    Sintaxe : CalcDV(cNum: string ; nLen: integer)
 --------------------------------------------------------}
 
-Function CalcDV237(cNum: string ; nLen: Integer): String;
+function CalcDV237(cNum: string ; nLen: Integer): String;
 var
   nCalc, i, Numero, j, Tamanho, Peso : integer;
 begin
@@ -536,7 +466,7 @@ end;
       Unit : LibWin
 --------------------------------------------------------}
 
-Function Replicate( const L: Integer; C: String ): String;
+function Replicate( const L: Integer; C: String ): String;
 var
    S: String;
    i: Integer;
@@ -551,7 +481,7 @@ end;
    Sintaxe : CalculaCodeBar( Bco,Moeda,Vlr,NossoNum,Ag,CodCed,Cart,NumConv,DtVenc : String): String;
 --------------------------------------------------------}
 
-Function CalculaCodeBar( Bco,Moeda,Vlr,NossoNum,Ag,CodCed,Cart,NumConv,DtVenc : String): String;
+function CalculaCodeBar( Bco,Moeda,Vlr,NossoNum,Ag,CodCed,Cart,NumConv,DtVenc : String): String;
 var
   DtBase : TDateTime;
   Dv : String;
@@ -633,7 +563,7 @@ end;
    Sintaxe : CalculaLinDig( CodeBar: String): String;
 --------------------------------------------------------}
 
-Function CalculaLinDig( CodeBar: String): String;
+function CalculaLinDig( CodeBar: String): String;
 var
   Linha : String;
   Dv, CheckMult : Byte;
@@ -723,7 +653,7 @@ end;
       Nome : NPadR
    Sintaxe : NPadR( const cExp: String; nLen: Integer ): String;
 --------------------------------------------------------}
-Function NPadR( const cExp: String; nLen: Integer ): String;
+function NPadR( const cExp: String; nLen: Integer ): String;
 var
    cMask: String;
    nDiff, L, i: Integer;
@@ -742,7 +672,7 @@ end;
       Nome : NPadL
    Sintaxe : NPadL( const cExp: String; nLen: Integer ): String;
 --------------------------------------------------------}
-Function NPadL( const cExp: String; nLen: Integer ): String;
+function NPadL( const cExp: String; nLen: Integer ): String;
 var
    cMask: String;
    nDiff, L, i: Integer;
@@ -783,7 +713,7 @@ begin
 end;
 
 
-Function tDataI(data: String):String; // Insere AAAA-MM-DD
+{Function tDataI(data: String):String; // Insere AAAA-MM-DD
 begin
   If data = '  /  /    ' Then
      tDataI := data;
@@ -791,6 +721,21 @@ begin
   tDataI := Copy(data,7,4) + '-' +
             Copy(data,4,2) + '-' +
             Copy(data,1,2);
+end;}
+
+Function tDataI(data: String):String; // Insere AAAA-MM-DD
+begin
+  If (Copy(data, 3, 1) = '/') and
+     (Copy(data, 6, 1) = '/') Then
+  begin
+
+    Result := Copy(data,7,4) + '-' +
+              Copy(data,4,2) + '-' +
+              Copy(data,1,2);
+
+  end else begin
+    Result := data;
+  end;
 end;
 
 Function tDataR(data: String):String; // Retorna de  AAAA-MM-DD p/ DD/MM/AAAA
@@ -823,84 +768,84 @@ begin
             Copy(data,7,2);
 end;
 
-Function tDataB(data: String): String; // Retorna a data de DDMMAAAA p/ DD/MM/AAAA
+Function tDataM(data: String): String;
 begin
   If data = '        ' Then
-     tDataB := data;
+     tDataM := data;
 
-  tDataB := Copy(data,1,2) + '/' +
-            Copy(data,3,2) + '/' +
-            Copy(data,5,4);
-  
-end;
-
-Function tDataU(data: String): String; // Retorna a data de DD/MM/AAAA p/ MM/DD/AA
-begin
-  If data = '        ' Then
-     tDataU := data;
-
-  tDataU := Copy(data,4,2) + '/' +
+  tDataM := Copy(data,4,2) + '/' +
             Copy(data,1,2) + '/' +
-            Copy(data,9,2);
+            Copy(data,7,4);
 end;
 
-Function tDataIATA(data: String): String;
+function tDataS(data: String): String; //Retorna a data de 22DEC01 p/ DD-MM-AAAA
 var
-  dataResult: String;
+  mes, dataConvertida: String;
+
 begin
-  { Formato Brasileiro }
-  if (Copy(data, 3,1) = '/') and
-     (Copy(data, 6,1) = '/') then
-  begin
+  if Length(RetornaLetras(data)) > 0 then begin
+     mes := Copy(data, 4, 3);
 
-    case AnsiIndexStr(Copy(data,4,2), ['01', '02', '03', '04', '05', '06', '07', '08', '09',
-                             '10', '11', '12']) of
-      0:  dataResult := Copy(data,1,2) + '-' + 'jan' + '-' + Copy(data,7,4);
-      1:  dataResult := Copy(data,1,2) + '-' + 'fev' + '-' + Copy(data,7,4);
-      2:  dataResult := Copy(data,1,2) + '-' + 'mar' + '-' + Copy(data,7,4);
-      3:  dataResult := Copy(data,1,2) + '-' + 'abr' + '-' + Copy(data,7,4);
-      4:  dataResult := Copy(data,1,2) + '-' + 'mai' + '-' + Copy(data,7,4);
-      5:  dataResult := Copy(data,1,2) + '-' + 'jun' + '-' + Copy(data,7,4);
-      6:  dataResult := Copy(data,1,2) + '-' + 'jul' + '-' + Copy(data,7,4);
-      7:  dataResult := Copy(data,1,2) + '-' + 'ago' + '-' + Copy(data,7,4);
-      8:  dataResult := Copy(data,1,2) + '-' + 'set' + '-' + Copy(data,7,4);
-      9:  dataResult := Copy(data,1,2) + '-' + 'out' + '-' + Copy(data,7,4);
-      10: dataResult := Copy(data,1,2) + '-' + 'nov' + '-' + Copy(data,7,4);
-      11: dataResult := Copy(data,1,2) + '-' + 'dez' + '-' + Copy(data,7,4);
-    end;
-    Delete(dataResult, 8, 2);
-    Result := dataResult;
-  end;
-end;
+     case IndexStr(mes, ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']) of
+       0:  mes := '01';
+       1:  mes := '02';
+       2:  mes := '03';
+       3:  mes := '04';
+       4:  mes := '05';
+       5:  mes := '06';
+       6:  mes := '07';
+       7:  mes := '08';
+       8:  mes := '09';
+       9:  mes := '10';
+       10: mes := '11';
+       11: mes := '12';
+     end;
 
-Function tDataS(data: String): String; // Retorna a data de DD/MM/AAAA p/ DD-JAN-AA
-var
-  dataConvertida, mes, ano, dia: String;
-begin
-  dia := Copy(data, 1,2);
-  mes := Copy(data, 4,2);
-  ano := Copy(data, 9,2);
+     dataConvertida := '20' + Copy(data, 7, 2) + '-' +
+                       mes + '-' +
+                       Copy(data, 2, 2);
+  end else begin
+     mes := Copy(IntToStr(RetornaNumero(data)), 3, 2);
 
-  case IndexStr(mes, ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']) of
-    0:  mes := 'JAN';
-    1:  mes := 'FEV';
-    2:  mes := 'MAR';
-    3:  mes := 'ABR';
-    4:  mes := 'MAI';
-    5:  mes := 'JUN';
-    6:  mes := 'JUL';
-    7:  mes := 'AGO';
-    8:  mes := 'SET';
-    9:  mes := 'OUT';
-    10: mes := 'NOV';
-    11: mes := 'DEZ';
+     dataConvertida := '20' + Copy(IntToStr(RetornaNumero(data)), 1, 2) + '-' +
+                       mes + '-' +
+                       Copy(IntToStr(RetornaNumero(data)), 5, 2);
   end;
 
-  dataConvertida := dia + '-' + mes + '-' + ano;
   Result := dataConvertida;
 end;
 
-Procedure GravaTraceMemo(memo: TMemo);
+function  tDataP(data: String): String; // Recebe data 31-JAN-23 Retorna 2023-01-31
+var
+  mes, dia, ano, dataConvertida: String;
+begin
+
+  dia := Copy(data, 1, 2);
+  mes := Copy(data, 4, 3);
+  ano := Copy(data, 8, 2);
+
+  case IndexStr(mes, ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']) of
+     0:  mes := '01';
+     1:  mes := '02';
+     2:  mes := '03';
+     3:  mes := '04';
+     4:  mes := '05';
+     5:  mes := '06';
+     6:  mes := '07';
+     7:  mes := '08';
+     8:  mes := '09';
+     9:  mes := '10';
+     10: mes := '11';
+     11: mes := '12';
+  end;
+
+  dataConvertida := '20' + ano + '-' + mes + '-' + dia;
+
+  Result := dataConvertida;
+end;
+
+
+{Procedure GravaTraceMemo(memo: TMemo);
 var
   Arquivo: TextFile;
   NomeArquivo,diretorio: String;
@@ -925,10 +870,10 @@ begin
       Application.MessageBox('Houve um Erro na Gravação do Log!','COURIER SAT', MB_OK + MB_DEFBUTTON1 + MB_ICONERROR);
   End;
 
-end;
+end;}
 
 
-Procedure MontaDataSet(Var cdCodigos:TClientDataSet);
+{Procedure MontaDataSet(Var cdCodigos:TClientDataSet);
 begin
   With dm.quCodigosControle Do
   begin
@@ -956,9 +901,9 @@ begin
        Next;
      end;
   end;
-end;
+end;}
 
-Function Autenticacao(cdCodigos:TClientDataSet;codigo: String): Boolean;
+Function Autenticacao(cdCodigos:TClientDataSet ;codigo: String): Boolean;
 begin
   If cdCodigos.Locate('codigo',codigo,[loCaseInsensitive]) Then
      If cdCodigos.fieldByName('Autentica').AsString = 'S' Then
@@ -966,16 +911,6 @@ begin
      else
         result := False;
 end;
-
-Function CodigoAutenticacao(cdCodigos:TClientDataSet; codigo: String):Boolean;
-begin
-  If cdCodigos.Locate('codigo',codigo,[loCaseInsensitive]) Then
-     If cdCodigos.fieldByName('Autentica').AsString = 'S' Then
-        result := True
-     else
-        result := False;
-end;
-
 
 Function GravaMulta(cdCodigos:TClientDataSet;codigo: String):Boolean;
 begin
@@ -1010,7 +945,7 @@ begin
   diretorioProcessamento := caminho;
 end;
 
-Function Encrypt(const S: String; Key: Word): String;
+function Encrypt(const S: String; Key: Word): String;
 var
   I: byte;
 begin
@@ -1022,7 +957,7 @@ begin
   end;
 end;
 
-Function Decrypt(const S: String; Key: Word): String;
+function Decrypt(const S: String; Key: Word): String;
 var
   I: byte;
   x: char;
@@ -1093,7 +1028,7 @@ begin
 end;
 
 
-Function CheckCGCdv(const CGC: string): boolean;
+function CheckCGCdv(const CGC: string): boolean;
 var
   CalcCGC, S1, S2, CGCOK: string;
   I, Soma, Digito: integer;
@@ -1200,7 +1135,7 @@ begin
       Nome : CheckIEdv
    Sintaxe : CheckIEdv(cStr: String)
 --------------------------------------------------------}
-Function CheckIEdv(cStr: String): Boolean;
+function CheckIEdv(cStr: String): Boolean;
 var
   localIE        : string;
   localResultIE  : boolean;
@@ -1243,7 +1178,7 @@ begin
   CheckIEdv := localResultIE;
 end;
 
-Function RemoveAcentos(acentuacao: string): string;
+function RemoveAcentos(acentuacao: string): string;
 var 
   i: integer; 
 begin 
@@ -1269,7 +1204,7 @@ begin
   end; 
 end;
 
-Function ChecaCidade(ncidade: String): string;
+function ChecaCidade(ncidade: String): string;
 begin
   Result := EmptyStr;
   if RetiraCaracteres(ncidade) = 'SAO LOURENCO D OESTE'     then Result := '8333';
@@ -1310,7 +1245,7 @@ end;
  Descrição : Remove os zeros a esquerda da string passada.
 --------------------------------------------------------}
 
-Function RemoveZeros(const cNum: String): String;
+function RemoveZeros(const cNum: String): String;
 var
   cVal : String;
   i : Byte;
@@ -1335,7 +1270,7 @@ begin
 end;
 
 
-Function Arredonda(Valor: Real): Real;
+function Arredonda(Valor: Real): Real;
 var
   Modo: TFPURoundingMode;
 begin
@@ -1358,7 +1293,6 @@ Begin
   else if (Sender is TComboBox)     then (Sender as TComboBox).Color      := $00F0E6E8
   //else if (Sender is TDateEdit)     then (Sender as TDateEdit).Color      := $00F0E6E8
   //else if (Sender is TCurrencyEdit) then (Sender as TCurrencyEdit).Color  := $00F0E6E8
-
   //else if (Sender is TDBMemo)   then (Sender as TDBMemo).Color: = clBtnFace
 end;
 
@@ -1459,7 +1393,7 @@ var i: Integer;
     aChar:PChar;
 Const
   // Apenas caracteres que o Harpia aceita.
-  CharEspc: set of Char = [#0..#255] - ['a'..'z','A'..'Z','1'..'9','0','.',';','-',',',':','/'];
+  CharEspc: set of Char = [#0..#255] - ['a'..'z','A'..'Z','1'..'9','0','.',';','-',',',':'];
 begin
   wLinha := RemoveAcentos(wLinha);
   For i := 1 To Length(wLinha) do
@@ -1525,7 +1459,7 @@ begin
   end;
 end;*)
 
-Function IsCharEspec( Str: String):Boolean;
+function IsCharEspec( Str: String):Boolean;
 Var
   aChar:PChar;
 Const
@@ -1537,7 +1471,7 @@ begin
      Result := True;
 end;
 
-Function TiraDez(Hora: String):String;
+function TiraDez(Hora: String):String;
 var
 Prim : TDateTime;
 Dez  : TDateTime;
@@ -1547,7 +1481,7 @@ begin
   Result := TimeToStr(Prim-Dez);
 end;
 
-Function FormataCPFCNPJ(fDoc: String): String;
+function FormataCPFCNPJ(fDoc: String): String;
 Var vTam, xx : Integer;
     vDoc : String;
 begin
@@ -1575,42 +1509,6 @@ For xx := 1 To vTam Do
       end;
    end;
 Result := vDoc;
-end;
-
-Function formataTelefoneCelular(num: String): String;
-var
-  i, vTam: Integer;
-  vNum: String;
-begin
-  vTam := Length(num);
-
-  for i := 1 to vTam do
-    If (Copy(num,i,1) <> '(') And (Copy(num,i,1) <> ')') And (Copy(num,i,1) <> '-') Then
-       vNum := vNum + Copy(num,i,1);
-
-  num := vNum;
-  vTam := Length(num);
-  vNum := '';
-
-  for i := 1 to vTam do
-  begin
-    if (i in [1]) then vNum := vNum + '(';
-
-    if (i in [3]) then vNum := vNum + ')';
-
-    if vTam = 10 then begin // Telefone fixo
-       if (i in [7]) then
-          vNum := vNum + '-';
-    end;
-
-    if vTam = 11 then begin // Celular
-       if (i in [8]) then
-          vNum := vNum + '-';
-    end;
-
-    vNum := vNum + Copy(num,i,1);
-  end;
-  Result := vNum;
 end;
 
 procedure OdsToXls(var vDir: String);
@@ -1748,7 +1646,7 @@ Result := '';
 end;
 
 //http://blog.vitorrubio.com.br/2010/10/como-matar-um-processo-no-delphi.html
-Function killtask(ExeFileName: string): Integer;
+function killtask(ExeFileName: string): Integer;
 const
   PROCESS_TERMINATE = $0001;
 var
@@ -2007,28 +1905,28 @@ begin
   end;
 end;
 
-Function nomeXML(tipoArq: String;sequencia: Integer):String;
+{Function nomeXML(tipoArq: String;sequencia: Integer):String;
 var
   nomeArquivo,dataArquivo: String;
 begin
   if main.ambiente = 'P' then
-     nomeArquivo := 'K3244.K07610X' {Produção}
+     nomeArquivo := 'K3244.K07610X' //Produção
   else
-     nomeArquivo := 'K3244.H07610X'; {Homologação}
+     nomeArquivo := 'K3244.H07610X'; //Homologação
 
   dataArquivo := RemoveMask(DateToStr(Date));
   dataArquivo := Copy(dataArquivo,7,2) +
                  Copy(dataArquivo,3,2) +
                  Copy(dataArquivo,1,2);
 
-  {nomeArquivo := nomeArquivo + tipoArq + '.' + 'FDX' + StrZeroF(IntToStr(sequencia),5) + '.D' +
-                 dataArquivo + '.H' + RemoveMask(TimeToStr(Now)) + '.xml';}
+  //nomeArquivo := nomeArquivo + tipoArq + '.' + 'FDX' + StrZeroF(IntToStr(sequencia),5) + '.D' +
+  //               dataArquivo + '.H' + RemoveMask(TimeToStr(Now)) + '.xml';
 
   nomeArquivo := nomeArquivo + tipoArq + '.' + 'FDX' + StrZeroF(IntToStr(sequencia),5) + '.D' +
                  dataArquivo + '.H' + RemoveMask(TimeToStr(Now));
 
   Result := Trim(nomeArquivo);
-end;
+end;}
 
 
 procedure RemovePalavra(var origem: string; apagar: string);
@@ -2041,7 +1939,7 @@ begin
      Delete(origem,InicioPalavra,TamanhoPalavra);
 end;
 
-//Function TruncVal(Value: Double; Casas: Integer): Double;
+//function TruncVal(Value: Double; Casas: Integer): Double;
 Function TruncaValor(Value: Real; Casas: Integer): Real;
 var
   sPot: String;
@@ -2064,16 +1962,6 @@ begin
      if DayOfWeek(dData) = 1 then
         dData := dData + 1;
   ProximoDiaUtil := dData;
-end;
-
-Function anteriorDiaUtil (dData : TDateTime) : TDateTime;
-begin
-  if DayOfWeek(dData) = 7 then
-     dData := dData - 1
-  else
-     if DayOfWeek(dData) = 1 then
-        dData := dData - 2;
-  anteriorDiaUtil := dData;
 end;
 
 Function PreencheZeroDireita(Texto: string; Quant: integer): String;
@@ -2131,24 +2019,7 @@ begin
   result := dataIncial + dias_uteis + ((dias_uteis -1 + dw) div 5) *2;
 end;
 
-
-Function MD5File(const FileName: string): string;
-var
-  idMD5: TIdHashMessageDigest5;
-  fs: TFileStream;
-begin
-  idMD5 := TIdHashMessageDigest5.Create;
-
-  fs := TFileStream.Create(fileName, fmOpenRead OR fmShareDenyWrite); // o primeiro parâmetro informa que essa Stream pode apenas ser lida ou que outra aplicação pode apenas ler a Stream.
-  try
-    result := idMD5.HashStreamAsHex(fs);
-  finally
-    fs.Free;
-    idMD5.Free;
-  end;
-end;
-
-Function trocaPonto(Valor: string): String;
+function trocaPonto(Valor: string): String;
 begin
   if (Trim(valor) <> EmptyStr) and
      (Trim(valor) <> '0')      then
@@ -2157,15 +2028,23 @@ begin
      Result := '0,00';
 end;
 
-Function trocaVirgula(Valor: string): String;
+function trocaVirgula(Valor: string): String;
 begin
   if (Trim(valor) <> EmptyStr) and
      (Trim(valor) <> '0')      then
-     Result := trim(StringReplace(Valor,',','.',[rfReplaceall]))
+     Result := Trim(StringReplace(Valor,',','.',[rfReplaceall]))
   else
      Result := '0.00';
 end;
 
+function  tiraVirgula(Valor: String): String;
+begin
+  if (Trim(valor) <> EmptyStr) and
+     (Trim(valor) <> '0')      then
+     Result := Trim(StringReplace(Valor,',','',[rfReplaceall]))
+  else
+     Result := '0.00';
+end;
 
 procedure GravarTexto(SalvarComo, Texto: WideString);
 var
@@ -2180,26 +2059,25 @@ begin
     CloseFile(txt);
   end;
 end;
-{Function duasPalavras(frase: String): String;
+
+Function VerificaLetras(Texto:String):Boolean;
 var
-  i: Integer;
-  palavra1,palavra2,texto: String;
-begin
-  texto := frase;
-  i := Pos (' ', texto);
-  palavra1 := Copy(texto,1,Pos (' ', texto) - 1);
-  Delete(texto,1,i);
-  if Pos (' ', texto) = 0 then begin
-     result := frase;
-  end else begin
-     palavra2 := Copy(texto,1,Pos (' ', texto) - 1);
-     result := palavra1 + ' ' + palavra2;
+Resultado:Boolean;
+I:Integer;
+Begin
+  Resultado := False;
+  For I := 1 to Length(Texto) do
+  begin
+    if (Texto[I] in ['a'..'z','A'..'Z']) then
+    begin
+      Resultado := True;
+    end else
+      Resultado := False;
   end;
-end;}
+  Result := Resultado;
+end;
 
-
-
-Function duasPalavras(frase: String): String;
+function duasPalavras(frase: String): String;
 var
   i: Integer;
   palavra1,palavra2,palavra3,texto: String;
@@ -2226,164 +2104,6 @@ begin
      Result := frase;
 end;
 
-Function padronizaCEP(cep: String): String;
-begin
-  if Length(cep) < 8 then begin
-     if Length(cep) < 5 then
-        StrZero(cep,5);
-     Result := PreencheZeroDireita(cep,8);
-  end else begin
-    Result := Copy(cep,1,8);
-  end;
-end;
-
-Function trocaEspaco(frase: String): String;
-begin
-  if (Trim(frase) <> EmptyStr) then
-     Result := trim(StringReplace(frase,' ','%20',[rfReplaceall]))
-end;
-
-Function arredondaComPonto(texto: String): String;
-var
-  novoTexto: String;
-begin
-  if (Trim(texto) = '0') or
-     (Trim(texto) = EmptyStr) then begin
-     Result := '0';
-  end else begin
-     novoTexto := trocaPonto(texto);
-     novoTexto := FloatToStr(Arredonda(StrToFloat(novoTexto)));
-     Result    := trocaVirgula(novoTexto);
-  end;
-end;
-
-
-Function extenso(valor: real): string;
-Const
-  Unidades: array[1..9] of string = ('Um', 'Dois', 'Tres', 'Quatro', 'Cinco',
-  'Seis', 'Sete', 'Oito', 'Nove');
-  Dez: array[1..9] of string = ('Onze', 'Doze', 'Treze', 'Quatorze', 'Quinze',
-  'Dezesseis', 'Dezessete', 'Dezoito', 'Dezenove');
-  Dezenas: array[1..9] of string = ('Dez', 'Vinte', 'Trinta', 'Quarenta',
-  'Cinquenta', 'Sessenta', 'Setenta',
-  'Oitenta', 'Noventa');
-  Centenas: array[1..9] of string = ('Cento', 'Duzentos', 'Trezentos',
-  'Quatrocentos', 'Quinhentos', 'Seiscentos',
-  'Setecentos', 'Oitocentos', 'Novecentos');
-  MoedaSigular = 'Real';
-  MoedaPlural = 'Reais';
-  CentSingular = 'Centavo';
-  CentPlural = 'Centavos';
-  Zero = 'Zero';
-
-var Texto,Milhar,Centena,Centavos,msg: string;
-  Function ifs(Expressao: Boolean; CasoVerdadeiro, CasoFalso: String): String;
-    begin
-      if Expressao then
-      Result:=CasoVerdadeiro
-      else
-      Result:=CasoFalso;
-  end;
-
-  Function MiniExtenso (trio: string): string;
-
-    var
-      Unidade, Dezena, Centena: string;
-    begin
-      Unidade:='';
-      Dezena:='';
-      Centena:='';
-      if (trio[2]='1') and (trio[3]<>'0') then
-        begin
-          Unidade:=Dez[strtoint(trio[3])];
-          Dezena:='';
-        end
-      else
-        begin
-          if trio[2]<>'0' then Dezena:=Dezenas[strtoint(trio[2])];
-          if trio[3]<>'0' then Unidade:=Unidades[strtoint(trio[3])];
-      end;
-      if (trio[1]='1') and (Unidade='') and (Dezena='') then
-        Centena:='Cem'
-      else
-        if trio[1]<>'0' then
-          Centena:=Centenas[strtoint(trio[1])]
-        else Centena:='';
-      Result:= Centena + ifs((Centena<>'') and ((Dezena<>'') or (Unidade<>'')), ' e ', '')
-      + Dezena + ifs((Dezena<>'') and (Unidade<>''),' e ', '') + Unidade;
-  end;
-
-begin
-  if (valor>999999.99) or (valor<0) then
-    begin
-      msg:='O valor está fora do intervalo permitido.';
-      msg:=msg+'O número deve ser maior ou igual a zero e menor que 999.999,99.';
-      msg:=msg+' Se não for corrigido o número não será escrito por extenso.';
-      showmessage(msg);
-      Result:='';
-      exit;
-    end;
-  if valor=0 then
-    begin
-      Result:='';
-      Exit;
-  end;
-  Texto:=formatfloat('000000.00',valor);
-  Milhar:=MiniExtenso(Copy(Texto,1,3));
-  Centena:=MiniExtenso(Copy(Texto,4,3));
-  Centavos:=MiniExtenso('0'+Copy(Texto,8,2));
-  Result:=Milhar;
-  if Milhar<>'' then
-    begin
-      if copy(texto,4,3)='000' then
-        Result:=Result+' Mil Reais'
-      else
-        Result:=Result+' Mil, ';
-  end;
-  //if (((copy(texto,4,2)='00') and (Milhar<>'') and (copy(texto,6,1)<>'0')))or (centavos='') and (milhar<>'')  then
-  if (((copy(texto,4,2)='00') and (Milhar<>'') and (copy(texto,6,1)<>'0')))or (centavos='00') and (milhar<>'') then
-
-    Result:=Result+' e ';
-  if (Milhar+Centena <>'') then
-    Result:=Result+Centena;
-  if (Milhar='') and (copy(texto,4,3)='001') then
-    Result:=Result+' Real'
-  else
-  if (copy(texto,4,3)<>'000') then
-    Result:=Result+' Reais';
-  if Centavos='' then
-    begin
-      Result:=Result+'.';
-      Exit;
-  end
-  else
-    begin
-      if Milhar+Centena='' then
-        Result:=Centavos
-      else
-        Result:=Result+', e '+Centavos;
-  end;
-  if (copy(texto,8,2)='01') and (Centavos<>'') then
-      Result:= UpperCase(Result+' Centavo.')
-  else
-      Result:= UpperCase(Result+' Centavos.');
-
-end;
-
-
-function montaLista(Memo: TMemo): String;
-var
-  i: Integer;
-  lista: String;
-begin
-  for i := 0 to Memo.Lines.Count - 1 do
-  begin
-    lista := lista + QuotedStr(Trim(Memo.Lines[i])) + ',';
-  end;
-  lista  := LeftStr(lista, Length(lista) - 1);
-  lista  := '(' + lista + ')';
-  Result := lista;  
-end;
 
 Procedure ordenarTituloGrid(Grid : TDBGrid; Column : TColumn);
 {$J+}
@@ -2410,6 +2130,20 @@ begin
      end;
 end;
 
+function montaLista(Memo: TMemo): String;
+var
+  i: Integer;
+  lista: String;
+begin
+  for i := 0 to Memo.Lines.Count - 1 do
+  begin
+    lista := lista + QuotedStr(Trim(Memo.Lines[i])) + ',';
+  end;
+  lista  := LeftStr(lista, Length(lista) - 1);
+  lista  := '(' + lista + ')';
+  Result := lista;  
+end;
+
 function montaListaString(listaRemessas: TStringList): String;
 var
   i: Integer;
@@ -2424,7 +2158,7 @@ begin
   Result := lista;
 end;
 
-function tiraMinutos(num: Integer): string;
+Function tiraMinutos(num: integer): string;
 var
   month0,day0,hour0,min0,sec0: string;
   year,month,day,hour,min,sec,millli: Word;
@@ -2452,17 +2186,17 @@ begin
               day := 28;
            end;
            case month of
-            1:  day := 31;
-            3:  day := 31;
-            4:  day := 30;
-            5:  day := 31;
-            6:  day := 30;
-            7:  day := 31;
-            8:  day := 31;
-            9:  day := 30;
-            10: day := 31;
-            11: day := 30;
-            12: day := 31;
+             1:  day := 31;
+             3:  day := 31;
+             4:  day := 30;
+             5:  day := 31;
+             6:  day := 30;
+             7:  day := 31;
+             8:  day := 31;
+             9:  day := 30;
+             10: day := 31;
+             11: day := 30;
+             12: day := 31;
           end;
         end;
 
@@ -2503,181 +2237,63 @@ begin
          Result := True;
   end
   else
-    Result := False;       
-end;
-
-function base64_Encoding(fileName: String; out sErro: String): WideString;
-var
-  stream: TFileStream;
-  base64: TIdEncoderMIME;
-  fileBase64: String;
-
-begin
-  if (FileExists(fileName)) then
-  begin
-    try
-      begin
-        base64 := TIdEncoderMIME.Create(nil);
-        stream := TFileStream.Create(fileName, fmOpenRead);
-        fileBase64 := TIdEncoderMIME.EncodeStream(stream);
-        stream.Free;
-        base64.Free;
-
-        if fileBase64 <> '' then
-          Result := fileBase64
-        else
-          sErro := 'Ocorre um erro ao converter o arquivo para Base64.';
-      end;
-    except
-      on E: Exception do
-        sErro := 'Ocorre um erro ao converter o arquivo para Base64.' + sLineBreak + E.Message;
-    end;
-  end else
-    sErro := 'Arquivo não encontrado.';
-end;
-
-procedure imprimirPlanilha(instrucaoSQl: TADOQuery; title, tipo: String);
-var
-  Linha, Coluna: Integer;
-  ValorCampo: String;
-  Celula: Variant;
-  MSExcel, ExcelBook, ExcelSheet: OleVariant;
-begin
-  MSExcel    := CreateOLEObject( 'Excel.Application' ); // Cria uma aplicação do Excel
-  ExcelBook  := MSExcel.WorkBooks.Add;                  // Adiciona uma pasta na planilha
-  ExcelSheet := ExcelBook.WorkSheets.Add;
-  ExcelSheet.Range['A1','H1'].Merge(EmptyParam);
-  ExcelSheet.Cells[ 1,1 ].Font.Size      := 12;
-  ExcelSheet.Cells[ 1,1 ].Interior.Color := $00ffcf9c;
-  ExcelSheet.Cells[ 1,1 ].Font.Bold      := True;
-  Celula       := ExcelSheet.Cells[ 1,1 ];
-  Celula.Value := title;
-  Linha := 3; // Dados são inseridos a partir desta linha
-  Screen.Cursor := crHourGlass;
-
-  instrucaoSQl.Open;
-
-  if (instrucaoSQl.RecordCount > 0) then begin
-    for Coluna := 1 to instrucaoSQL.FieldCount do
-    begin
-      ValorCampo := instrucaoSQL.Fields[coluna - 1].DisplayLabel;
-      MSExcel.cells[2,coluna] := ValorCampo; // Nome das colunas
-      MSExcel.Cells[2,coluna].Font.Color := clWhite;
-      MSExcel.Cells[2,coluna].Font.Bold := True;
-      MSExcel.Cells[2,coluna].Interior.Color := clBlue;
-    end;
-
-
-    For Coluna := 0 to (instrucaoSQl.FieldCount - 1) do
-    begin
-      MSExcel.Cells[Linha,Coluna + 1] := instrucaoSQl.Fields[Coluna].DisplayLabel;
-      Case instrucaoSQl.Fields[Coluna].DataType Of
-        ftDate    : MSExcel.Columns.Columns[ Coluna + 1 ].NumberFormat := 'dd/mm/aaaa';
-        ftDateTime: MSExcel.Columns.Columns[ Coluna + 1 ].NumberFormat := 'dd/mm/aaaa';
-        ftString  : MSExcel.Columns.Columns[ Coluna + 1 ].NumberFormat := '@';
-        ftCurrency: MSExcel.Columns.Columns[ Coluna + 1 ].NumberFormat := '###0,00';
-        ftFloat   : MSExcel.Columns.Columns[ Coluna + 1 ].NumberFormat := '###0';
-        ftBCD     : MSExcel.Columns.Columns[ Coluna + 1 ].NumberFormat := '@';
-        ftSmallint: MSExcel.Columns.Columns[ Coluna + 1 ].NumberFormat := '###0,00';
-      end;
-    end;
-
-    instrucaoSQl.First;
-    instrucaoSQl.DisableControls;
-    try
-      while not instrucaoSQl.Eof do
-      begin
-        try
-          for Coluna := 0 to (instrucaoSQL.FieldCount - 1) do  begin
-            if not VarIsEmpty(instrucaoSQl.Fields[coluna].Value) then
-              MSExcel.Cells[Linha,Coluna + 1] := Trim(VarToStr(instrucaoSQl.Fields[Coluna].Value))
-            else
-              MSExcel.Cells[Linha,Coluna + 1] := instrucaoSQl.Fields[Coluna].Value;
-
-            if tipo = 'Voo' then begin
-               if (coluna = 19) or (coluna = 21) or (coluna = 24) or (coluna = 26) then
-                  MSExcel.Cells[Linha,Coluna + 1] := trocaVirgula(instrucaoSQl.Fields[coluna].Value);
-            end;
-
-            if Trim(tipo) = 'Tratamento' then begin
-               if (coluna = 4) and (Trim(instrucaoSQl.Fields[coluna].Value) <> EmptyStr) then
-                  MSExcel.Cells[Linha,Coluna + 1] := 'TC - ' + Trim(instrucaoSQl.Fields[coluna].Value);
-            end;
-
-            if Trim(tipo) = 'Total' then begin
-               if coluna = 4 then
-                  MSExcel.Cells[Linha,Coluna + 1] := FloatToStr(StrToFloat(instrucaoSQl.Fields[coluna].Value) * 2.2046);
-            end;
-
-          end;
-          instrucaoSQl.Next;
-          Inc(Linha);
-        finally
-        end;
-      end;
-    finally
-      instrucaoSQl.EnableControls;
-    end;
-  end;
-  MSExcel.Columns.AutoFit;
-  MSExcel.Visible := True;
-  Screen.Cursor := crDefault;
-end;
-
-function JuntaPdfs(outPdf: string; files: TStringList): Integer;
-var
-  code, code1, gsargc, i: Integer;
-  gsargv: array of string;
-  minst: PGSAPIrevision;
-begin
-  setlength(gsargv, length(gsargv) + 1);
-  gsargv[high(gsargv)] := 'gs';
-  setlength(gsargv, length(gsargv) + 1);
-  gsargv[high(gsargv)] := '-dBATCH';
-  setlength(gsargv, length(gsargv) + 1);
-  gsargv[high(gsargv)] := '-dNOPAUSE';
-  setlength(gsargv, length(gsargv) + 1);
-  gsargv[high(gsargv)] := '-q';
-  setlength(gsargv, length(gsargv) + 1);
-  gsargv[high(gsargv)] := '-sDEVICE=pdfwrite';
-  setlength(gsargv, length(gsargv) + 1);
-  gsargv[high(gsargv)] := pansichar('-sOutputFile=' + outPdf);
-
-  for i := 0 to files.Count - 1 do
-  begin
-    setlength(gsargv, length(gsargv) + 1);
-    files.Strings[I] := files.Strings[I]; 
-    gsargv[high(gsargv)] := pansichar(files.Strings[i]);
-  end;
-
-  gsargc := length(gsargv);
-  code := gsapi_new_instance(@minst, nil);
-
-  if (code < 0) then
-  begin
-    result := 1;
-    exit;
-  end;
-
-  code := gsapi_set_arg_encoding(minst, GS_ARG_ENCODING_UTF8);
-
-  if (code = 0) then
-    code := gsapi_init_with_args(minst, gsargc, @gsargv[0]);
-  code1 := gsapi_exit(minst);
-
-  if ((code = 0) or (code = e_Quit)) then
-    code := code1;
-  gsapi_delete_instance(minst);
-
-  if ((code = 0) or (code = e_Quit)) then
-  begin
-    result := 0;
-    exit;
-  end;
+    Result := False;
   
-  result := 1;
 end;
 
+
+Function RetiraCaracteresEspeciaisExportacao(wLinha: String): String;
+var i: Integer;
+    linha,caracter: String;
+    aChar:PChar;
+Const
+  // Apenas caracteres que o Harpia aceita.
+  CharEspc: set of Char = [#0..#255] - ['a'..'z','A'..'Z','1'..'9','0','.',';',',',':', '-'];
+begin
+  wLinha := RemoveAcentos(wLinha);
+
+  if (Length(wLinha) = 1) and (Trim(wLinha) = '-')then
+     result := QuotedStr('')
+  else begin
+     For i := 1 To Length(wLinha) do
+     begin
+     aChar := pChar(Copy(wLinha, i, 1 ));
+     if ((aChar^ in CharEspc)) then
+        caracter := ' '
+     else
+        caracter :=  wLinha[i];
+        linha := linha + caracter;
+     end;
+     result := QuotedStr(linha);
+  end;
+end;
+
+Function  SoNumerosRecintos(wLinha: String): String;
+var I: integer;
+    S: string;
+begin
+  S := '';
+  for I := 1 To Length(wLinha) Do
+  begin
+    if (wLinha[I] in ['0'..'9', '.']) then
+    begin
+      S := S + Copy(wLinha, I, 1);
+    end;
+  end;
+  result := S;
+end;
+
+function validaNumeroMaster(master: String): Boolean;
+var
+  Dv: Real;
+begin
+  Dv := StrToInt(Copy(master, 4, 7)) Mod 7;
+
+  if Copy(FloatToStr(Dv), 1, 1) <> Copy(master, 11, 1) then
+     Result := False
+  else
+     Result := True;
+end;
 end.
 
 

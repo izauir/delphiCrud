@@ -9,8 +9,7 @@ uses
   uDmConexao in 'dao\uDmConexao.pas' {dmConexao: TDataModule},
   uDmCliente in 'dao\uDmCliente.pas' {dmCliente: TDataModule},
   uFrmBaixarRelatorios in 'view\uFrmBaixarRelatorios.pas' {frmBaixarRelatorios},
-  uFrmImportarRelatorios in 'view\uFrmImportarRelatorios.pas' {frmImportarRelatorios},
-  uUtil in 'utils\uUtil.pas';
+  uFrmImportarRelatorios in 'view\uFrmImportarRelatorios.pas' {frmImportarRelatorios};
 
 {$R *.res}
 
