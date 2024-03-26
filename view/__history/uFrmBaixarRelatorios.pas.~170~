@@ -13,7 +13,6 @@ type
     btnBaixar: TButton;
     Gauge: TGauge;
     procedure btnBaixarClick(Sender: TObject);
-    procedure relatorioExcel;
   private
     { Private declarations }
     objCliente: TClienteModel;
@@ -21,6 +20,7 @@ type
     quPesquisar: TADOQuery;
     
     procedure relatorioTxt;
+    procedure relatorioExcel;
   public
     { Public declarations }
   end;
@@ -34,6 +34,10 @@ implementation
 
 procedure TfrmBaixarRelatorios.btnBaixarClick(Sender: TObject);
 begin
+ if rgTiposRelatorio.ItemIndex = 2 then begin
+   relatorioExcel;
+ end;
+
  if rgTiposRelatorio.ItemIndex = 1 then begin
    relatorioTxt;
  end;
@@ -57,16 +61,18 @@ begin
     registroAtual := 0;
     Gauge.Progress := 0;
 
+    //Colocar ponteiro no primeiro registro
+    quPesquisar.First;
+    while not quPesquisar.Eof do
+    begin
+      // Atualiza a barra de progresso
+      Inc(registroAtual);
+      Gauge.Progress := Round(registroAtual/totalRegistros * 100);
+      quPesquisar.Next;
+    end;
+
     //Chamada da function lib Util
     imprimirPlanilha(quPesquisar, 'Cliente', EmptyStr);
-
-    while not Eof do
-    begin
-    // Atualiza a barra de progresso
-    Inc(registroAtual);
-    Gauge.Progress := Round(registroAtual/totalRegistros * 100);
-    Next;
-    end;
 
     Application.MessageBox('Relatório emitido com sucesso!', 'Aviso', MB_ICONINFORMATION + MB_OK);
   except

@@ -57,16 +57,18 @@ begin
     registroAtual := 0;
     Gauge.Progress := 0;
 
-    //Chamada da function lib Util
-    imprimirPlanilha(quPesquisar, 'Cliente', EmptyStr);
-
+    //Colocar ponteiro no primeiro registro
+    quPesquisar.First;
     while not quPesquisar.Eof do
     begin
-    // Atualiza a barra de progresso
-    Inc(registroAtual);
-    Gauge.Progress := Round(registroAtual/totalRegistros * 100);
-    Next;
+      // Atualiza a barra de progresso
+      Inc(registroAtual);
+      Gauge.Progress := Round(registroAtual/totalRegistros * 100);
+      quPesquisar.Next;
     end;
+
+    //Chamada da function lib Util
+    imprimirPlanilha(quPesquisar, 'Cliente', EmptyStr);
 
     Application.MessageBox('Relatório emitido com sucesso!', 'Aviso', MB_ICONINFORMATION + MB_OK);
   except

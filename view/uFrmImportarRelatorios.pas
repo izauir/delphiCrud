@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uClienteModel, StdCtrls, ExtCtrls, ComCtrls, {lib txt} Contnrs, uUtil, Gauges,
-  Grids;
+  Grids, {lib XML} XmlIntf, XmlDoc;
 
 type
   TfrmImportarRelatorios = class(TForm)
@@ -14,13 +14,14 @@ type
     btnImportar: TButton;
     Gauge: TGauge;
     AGrid: TStringGrid;
-    procedure importarTxt;
-    procedure importarExcel;
-    procedure importarXml;
     procedure btnImportarClick(Sender: TObject);
   private
     { Private declarations }
     objCliente: TClienteModel;
+
+    procedure importarTxt;
+    procedure importarExcel;
+    procedure importarXml;
   public
     { Public declarations }
   end;
@@ -37,6 +38,10 @@ uses
 
 procedure TfrmImportarRelatorios.btnImportarClick(Sender: TObject);
 begin
+if rgTiposRelatorio.ItemIndex = 2 then begin
+ importarXml;
+end;
+
 if rgTiposRelatorio.ItemIndex = 1 then begin
  importarTxt;
 end;
@@ -202,8 +207,64 @@ begin
 end;
 
 procedure TfrmImportarRelatorios.importarXml;
+var
+  XMLDocument: IXMLDocument;
+  ClienteNode: IXMLNode;
+  Erros: String;
+  listaObjCliente: TObjectList;
+  objClienteController: TClienteController;
+  linhaAtual, totalLinhas, i: Integer;
 begin
-  //teste
+  try
+    odSubirArquivo.Filter := 'Arquivos XML|*.xml';
+    if odSubirArquivo.Execute then begin
+       //Já recebe automaticamente o node Pai
+       XMLDocument := TXMLDocument.Create(nil);
+       XMLDocument.LoadFromFile(odSubirArquivo.FileName);
+
+       listaObjCliente := TObjectList.Create; // Inicializa a lista
+       objClienteController := TClienteController.Create; // Inicializa o objeto
+       Erros := EmptyStr; // Boa prática, zerar a variável
+
+       totalLinhas := XMLDocument.DocumentElement.ChildNodes.Count;
+       Gauge.Progress := 0;
+
+       for i := 0 to totalLinhas - 1 do
+       begin
+         ClienteNode := XMLDocument.DocumentElement.ChildNodes[i];
+         objCliente := TClienteModel.Create; // Cria um novo objeto
+
+         objCliente.ID := StrToInt(ClienteNode.ChildNodes['id'].Text);
+         if objClienteController.buscarPorId(objCliente) = false then begin
+            if CheckCPFdv(ClienteNode.ChildNodes['documento'].Text) = false then begin
+               erros := erros + IntToStr(objCliente.ID) + ': Documento inválido!' + Chr(13);
+               Continue;
+            end;
+
+            objCliente.Nome          := ClienteNode.ChildNodes['nome'].Text;
+            objCliente.Genero        := ClienteNode.ChildNodes['genero'].Text;
+            objCliente.tipoDocumento := ClienteNode.ChildNodes['tipoDocumento'].Text;
+            objCliente.Documento     := ClienteNode.ChildNodes['documento'].Text;
+            objCliente.Telefone      := ClienteNode.ChildNodes['telefone'].Text;
+
+            listaObjCliente.Add(objCliente);
+         end else
+            Erros := Erros + IntToStr(ObjCliente.ID) + ': ID já existente!' + Chr(13);
+
+          // Atualiza a barra de progresso
+         Inc(linhaAtual);
+         Gauge.Progress := Round(linhaAtual/totalLinhas * 100);
+       end;
+    end;
+
+    if Erros <> EmptyStr then
+       ShowMessage('Foram encontrado(s) o(s) seguinte(s) erro(s):' + Chr(13) + Erros);
+
+    if objClienteController.gravarLista(listaObjCliente) then
+       Application.MessageBox(PChar(IntToStr(listaObjCliente.Count) + ' registros adicionados!'), 'Aviso', MB_ICONINFORMATION + MB_OK);
+  finally
+    odSubirArquivo.Free;
+  end;
 end;
 
 end.

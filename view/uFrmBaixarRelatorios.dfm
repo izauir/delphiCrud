@@ -4,8 +4,8 @@ object frmBaixarRelatorios: TfrmBaixarRelatorios
   BorderIcons = [biSystemMenu, biMaximize]
   BorderStyle = bsDialog
   Caption = 'Baixar relat'#243'rios'
-  ClientHeight = 219
-  ClientWidth = 280
+  ClientHeight = 212
+  ClientWidth = 334
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,7 +17,7 @@ object frmBaixarRelatorios: TfrmBaixarRelatorios
   PixelsPerInch = 96
   TextHeight = 13
   object Gauge: TGauge
-    Left = 69
+    Left = 96
     Top = 125
     Width = 140
     Height = 20
@@ -26,19 +26,20 @@ object frmBaixarRelatorios: TfrmBaixarRelatorios
   object rgTiposRelatorio: TRadioGroup
     Left = 48
     Top = 16
-    Width = 185
+    Width = 241
     Height = 89
     BiDiMode = bdLeftToRight
-    Columns = 2
+    Columns = 3
     ItemIndex = 0
     Items.Strings = (
       'EXCEL'
-      'TXT')
+      'TXT'
+      'XML')
     ParentBiDiMode = False
     TabOrder = 0
   end
   object btnBaixar: TButton
-    Left = 96
+    Left = 120
     Top = 163
     Width = 81
     Height = 33

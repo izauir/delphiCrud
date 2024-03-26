@@ -1,0 +1,26 @@
+<clientes>
+	<cliente>
+		<id>1</id>
+		<nome>Vinicius</nome>
+		<genero>M</genero>
+		<tipoDocumento>RG</tipoDocumento>
+		<documento>47499123871</documento>
+		<telefone>222222222</telefone>
+	</cliente>
+	<cliente>
+		<id>2</id>
+		<nome>Izauir</nome>
+		<genero>M</genero>
+		<tipoDocumento>RG</tipoDocumento>
+		<documento>47499123871</documento>
+		<telefone>222222222</telefone>
+	</cliente>
+	<cliente>
+		<id>3</id>
+		<nome>Bruno Rodrigues</nome>
+		<genero>M</genero>
+		<tipoDocumento>RG</tipoDocumento>
+		<documento>47499123871</documento>
+		<telefone>222222222</telefone>
+	</cliente>
+</clientes>

@@ -13,14 +13,15 @@ type
     btnBaixar: TButton;
     Gauge: TGauge;
     procedure btnBaixarClick(Sender: TObject);
-    procedure relatorioExcel;
   private
     { Private declarations }
     objCliente: TClienteModel;
     clienteController : TClienteController;
     quPesquisar: TADOQuery;
-    
+
     procedure relatorioTxt;
+    procedure relatorioExcel;
+    procedure relatorioXml;
   public
     { Public declarations }
   end;
@@ -34,6 +35,10 @@ implementation
 
 procedure TfrmBaixarRelatorios.btnBaixarClick(Sender: TObject);
 begin
+ if rgTiposRelatorio.ItemIndex = 2 then begin
+   relatorioExcel;
+ end;
+
  if rgTiposRelatorio.ItemIndex = 1 then begin
    relatorioTxt;
  end;
