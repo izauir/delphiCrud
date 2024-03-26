@@ -163,10 +163,10 @@ begin
     With sqlGravar do
     begin
       // Verificar se o ID já existe
-     Pesquisar(objCliente);
+     buscarPorID(objCliente);
 
       // Se o ID não existir, então insira o novo registro
-      if sqlPesquisar.IsEmpty then
+      if buscarPorID(objCliente) = False then
       begin
         Close;
         sql.Clear;
@@ -210,6 +210,7 @@ begin
     begin
       for I := 0 to listaObjCliente.Count - 1 do
       begin
+        //Abrir minha lista (pegando os objetos dentro da lista)
         objCliente := TClienteModel(listaObjCliente[I]);
         Close;
         sql.Clear;

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, DBGrids, DB, uClienteController,
-  uClienteModel, ADODB, Buttons;
+  uClienteModel, ADODB, Buttons, uUtil;
 
 type
   TfrmCadastrarCliente = class(TForm)
@@ -80,44 +80,50 @@ function TfrmCadastrarCliente.ValidarCampos: Boolean;
 begin
   Result := True;
 
-  if edtCodigo.Text = EmptyStr then
-  begin
-    MessageDlg('Campo código não pode ser vazio!', mtError,[mbOK], 0);
+  if edtCodigo.Text = EmptyStr then begin
+     Application.MessageBox('Campo código não pode ser vazio!', 'Erro', MB_ICONEXCLAMATION + MB_OK);
+     Result := False;
+     Exit;
+  end;
+
+  if edtNome.Text = EmptyStr then begin
+     Application.MessageBox('Campo nome não pode ser vazio!', 'Erro', MB_ICONEXCLAMATION + MB_OK);
+     Result := False;
+     Exit;
+  end;
+
+  if cbTipoDocumento.ItemIndex = -1 then begin
+    Application.MessageBox('Escolha uma opção!', 'Erro', MB_ICONEXCLAMATION + MB_OK);
     Result := False;
     Exit;
   end;
 
-  if edtNome.Text = EmptyStr then
-  begin
-    MessageDlg('Campo nome não pode ser vazio!', mtError,[mbOK], 0);
-    Result := False;
-    Exit;
+  if edtDocumento.Text = EmptyStr then begin
+     Application.MessageBox('Campo documento não pode ser vazio!', 'Erro', MB_ICONEXCLAMATION + MB_OK);
+     Result := False;
+     Exit;
   end;
 
-  if cbTipoDocumento.ItemIndex = -1 then
-  begin
-    MessageDlg('Escolha uma opção!', mtError,[mbOK], 0);
-    Result := False;
-    Exit;
+  if not CheckCPFdv(edtDocumento.Text) then begin
+     Application.MessageBox('Documento inválido!', 'Erro', MB_ICONEXCLAMATION + MB_OK);
+     Result := False;
+     Exit;
   end;
 
-  if edtDocumento.Text = EmptyStr then
-  begin
-    MessageDlg('Campo documento não pode ser vazio!', mtError,[mbOK], 0);
-    Result := False;
-    Exit;
+  if edtDocumento.Text = EmptyStr then begin
+     Application.MessageBox('Campo documento não pode ser vazio!', 'Erro', MB_ICONEXCLAMATION + MB_OK);
+     Result := False;
+     Exit;
   end;
 
-  if edtTelefone.Text = EmptyStr then
-  begin
-    MessageDlg('Campo telefone não pode ser vazio!', mtError,[mbOK], 0);
-    Result := False;
-    Exit;
+  if edtTelefone.Text = EmptyStr then begin
+     Application.MessageBox('Campo telefone não pode ser vazio!', 'Erro', MB_ICONEXCLAMATION + MB_OK);
+     Result := False;
+     Exit;
   end;
 
-  if cbGenero.ItemIndex = -1 then
-  begin
-    MessageDlg('Escolha uma opção!', mtError,[mbOK], 0);
+  if cbGenero.ItemIndex = -1 then begin
+    Application.MessageBox('Escolha uma opção!', 'Erro', MB_ICONEXCLAMATION + MB_OK);
     Result := False;
     Exit;
   end;

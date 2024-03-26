@@ -1,0 +1,403 @@
+unit uFrmCadastrarCliente;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, DBGrids, DB, uClienteController,
+  uClienteModel, ADODB, Buttons, uUtil;
+
+type
+  TfrmCadastrarCliente = class(TForm)
+    pnlRodape: TPanel;
+    btnFechar: TButton;
+    pgcPrincipal: TPageControl;
+    tbPesquisa: TTabSheet;
+    tbDados: TTabSheet;
+    pnlFiltro: TPanel;
+    edtPesquisar: TLabeledEdit;
+    btnPesquisar: TButton;
+    pnlBtnsPesquisar: TPanel;
+    dbGridPesquisar: TDBGrid;
+    lblGenero: TLabel;
+    edtCodigo: TLabeledEdit;
+    edtNome: TLabeledEdit;
+    cbGenero: TComboBox;
+    edtDocumento: TLabeledEdit;
+    edtTelefone: TLabeledEdit;
+    pnlBtnsCadastrar: TPanel;
+    btnNovo: TButton;
+    btnDetalhar: TButton;
+    btnExcluir: TButton;
+    btnGravar: TButton;
+    btnAlterar: TButton;
+    btnListar: TButton;
+    btnCancelar: TButton;
+    cbTipoDocumento: TComboBox;
+    lblDocumento: TLabel;
+    btnBaixarRelatorios: TBitBtn;
+    btnImportarRelatorios: TBitBtn;
+    dataSource: TDataSource;
+    procedure btnFecharClick(Sender: TObject);
+    procedure btnPesquisarClick(Sender: TObject);
+    procedure btnDetalharClick(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure btnListarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnBaixarRelatoriosClick(Sender: TObject);
+    procedure btnImportarRelatoriosClick(Sender: TObject);
+  private
+    { Private declarations }
+    //Vars globais
+    quPesquisar : TADOQuery;
+    quConsulta  : TADOQuery;
+
+    //Procs/functions e objetos
+    objCliente: TClienteModel;
+    clienteController : TClienteController;
+
+    function ValidarCampos: Boolean;
+    procedure Pesquisar;
+    procedure limparCampos;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadastrarCliente: TfrmCadastrarCliente;
+
+implementation
+
+uses uFrmBaixarRelatorios, uFrmImportarRelatorios;
+
+{$R *.dfm}
+
+function TfrmCadastrarCliente.ValidarCampos: Boolean;
+begin
+  Result := True;
+
+  if edtCodigo.Text = EmptyStr then begin
+     Application.MessageBox('Campo código não pode ser vazio!', 'Erro', MB_ICONERROR + MB_OK);
+     Result := False;
+     Exit;
+  end;
+
+  if edtNome.Text = EmptyStr then
+  begin
+    MessageDlg('Campo nome não pode ser vazio!', mtError,[mbOK], 0);
+    Result := False;
+    Exit;
+  end;
+
+  if cbTipoDocumento.ItemIndex = -1 then
+  begin
+    MessageDlg('Escolha uma opção!', mtError,[mbOK], 0);
+    Result := False;
+    Exit;
+  end;
+
+  if edtDocumento.Text = EmptyStr then begin
+     MessageDlg('Campo documento não pode ser vazio!', mtError,[mbOK], 0);
+     Result := False;
+     Exit;
+  end;
+
+  if not CheckCPFdv(edtDocumento) then begin
+     Application.MessageBox('Documento inválido!', 'Erro', MB_ICONERROR + MB_OK);
+     Result := False;
+     Exit;
+  end;
+
+  if not edtDocumento.Text = EmptyStr then begin
+     Application.MessageBox('Campo documento não pode ser vazio!', 'Erro', MB_ICONERROR + MB_OK);
+     Result := False;
+     Exit;
+  end;
+
+  if edtTelefone.Text = EmptyStr then begin
+     MessageDlg('Campo telefone não pode ser vazio!', mtError,[mbOK], 0);
+     Result := False;
+     Exit;
+  end;
+
+  if cbGenero.ItemIndex = -1 then
+  begin
+    MessageDlg('Escolha uma opção!', mtError,[mbOK], 0);
+    Result := False;
+    Exit;
+  end;
+end;
+
+procedure TfrmCadastrarCliente.btnNovoClick(Sender: TObject);
+begin
+  pgcPrincipal.ActivePage := tbDados;
+end;
+
+procedure TfrmCadastrarCliente.FormActivate(Sender: TObject);
+begin
+ pgcPrincipal.TabIndex := 0;
+end;
+
+procedure TfrmCadastrarCliente.limparCampos;
+begin
+  //Limpar campos
+  edtCodigo.Text := EmptyStr;
+  edtNome.Text := EmptyStr;
+  edtDocumento.Text := EmptyStr;
+  edtTelefone.Text := EmptyStr;
+
+  cbGenero.ItemIndex := -1;
+  cbGenero.Text := 'Selecione';
+  cbTipoDocumento.ItemIndex := -1;
+  cbTipoDocumento.Text := 'Selecione';
+end;
+
+procedure TfrmCadastrarCliente.Pesquisar;
+begin
+ {Utilizando a Model}
+  Screen.Cursor := crHourGlass;
+//  Sleep(10000);
+  objCliente := TClienteModel.Create;
+  objCliente.Nome := edtPesquisar.Text;
+  quPesquisar := clienteController.Pesquisar(objCliente);
+  dataSource.DataSet := quPesquisar;
+  
+  //dbGridPesquisar :=
+
+  //Validação botões
+  if quPesquisar.RecordCount > 0 then
+  begin
+    btnExcluir.Enabled          := True;
+    btnDetalhar.Enabled         := True;
+    btnBaixarRelatorios.Enabled := True;
+  end else
+  begin
+    btnExcluir.Enabled          := False;
+    btnDetalhar.Enabled         := False;
+    btnBaixarRelatorios.Enabled := False;
+  end;
+
+// Organização GRID
+  With dbGridPesquisar do
+  begin
+    Columns[0].Title.Caption := 'ID';
+    Columns[1].Title.Caption := 'Nome:';
+    Columns[2].Title.Caption := 'Telefone:';
+
+    Columns[0].Title.Alignment := taCenter;
+    Columns[1].Title.Alignment := taCenter;
+    Columns[2].Title.Alignment := taCenter;
+
+    Columns[0].Alignment := taCenter;
+    Columns[1].Alignment := taCenter;
+    Columns[2].Alignment := taCenter;
+
+    Columns[0].Title.Color := $00F0E6E8;
+    Columns[1].Title.Color := $00F0E6E8;
+    Columns[2].Title.Color := $00F0E6E8;
+
+    Columns[0].Width := 50;
+    Columns[1].Width := 200;
+    Columns[2].Width := 150;
+
+    Refresh;
+    Update;
+  end;
+
+  {Se não fosse por Componente precisaria passar esta linha}
+  //dsPesquisar.DataSet := clienteController.Pesquisar(objCliente);
+
+  Screen.Cursor := crDefault;
+
+{Direto pela String}
+//  dsPesquisar.DataSet := clienteController.Pesquisar(edtPesquisar.Text);
+end;
+
+procedure TfrmCadastrarCliente.btnFecharClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfrmCadastrarCliente.btnGravarClick(Sender: TObject);
+begin
+  if not ValidarCampos then
+    Exit;
+
+  objCliente := TClienteModel.Create;
+
+  With objCliente do
+  begin
+    ID            := StrToInt(edtCodigo.Text);
+    Nome          := Trim(edtNome.Text);
+    Genero        := cbGenero.Text;
+    tipoDocumento := cbTipoDocumento.Text;
+    Documento     := Trim(edtDocumento.Text);
+    Telefone      := Trim(edtTelefone.Text);
+  end;
+
+  if clienteController.Gravar(objCliente) then
+    MessageDlg('Gravado com sucesso!', mtInformation, [mbOK], 0)
+end;
+
+procedure TfrmCadastrarCliente.btnImportarRelatoriosClick(Sender: TObject);
+begin
+  frmImportarRelatorios:=TfrmImportarRelatorios.Create(Self);
+  frmImportarRelatorios.ShowModal;
+  frmImportarRelatorios.Release;
+end;
+
+procedure TfrmCadastrarCliente.btnListarClick(Sender: TObject);
+begin
+  if edtCodigo.Text = EmptyStr then
+  begin
+    MessageDlg('Digite algum código para listar!', mtError,[mbOK], 0);
+    Exit;
+  end;
+
+  objCliente := TClienteModel.Create;
+  objCliente.ID := StrToInt(edtCodigo.Text);
+  quPesquisar := clienteController.Detalhar(objCliente);
+
+  with quPesquisar do
+  begin
+    //Se a query trazer a informação do ID
+    if clienteController.buscarPorId(objCliente) then
+    begin
+      edtCodigo.Text            := IntToStr(FieldByName('id').AsInteger);
+      edtNome.Text              := FieldByName('nome').AsString;
+      cbGenero.ItemIndex        := cbGenero.Items.IndexOf(FieldByName('genero').AsString);
+      //Importante o uso do Trim, para tirar os espaços (iniciais e finais). Ajuda caso declare no banco do tipo CHAR.
+      cbTipoDocumento.ItemIndex := cbTipoDocumento.Items.IndexOf(Trim(FieldByName('tipoDocumento').AsString));
+      edtDocumento.Text         := FieldByName('documento').AsString;
+      edtTelefone.Text          := FieldByName('telefone').AsString;
+    end
+    else
+    begin
+      MessageDlg('Código do cliente não existe!', mtError,[mbOK], 0);
+      limparCampos;
+      Exit;
+    end;
+  end;
+end;
+
+procedure TfrmCadastrarCliente.btnPesquisarClick(Sender: TObject);
+begin
+  Pesquisar;
+end;
+
+procedure TfrmCadastrarCliente.btnAlterarClick(Sender: TObject);
+begin
+  if not ValidarCampos then
+    Exit;
+
+  objCliente := TClienteModel.Create;
+  objCliente.ID := StrToInt(edtCodigo.Text);
+
+  if clienteController.buscarPorId(objCliente) then
+  begin
+    With objCliente do
+    begin
+      ID            := StrToInt(edtCodigo.Text);
+      Nome          := Trim(edtNome.Text);
+      Genero        := cbGenero.Text;
+      tipoDocumento := cbTipoDocumento.Text;
+      Documento     := Trim(edtDocumento.Text);
+      Telefone      := Trim(edtTelefone.Text);
+    end;
+
+    if clienteController.Alterar(objCliente) then
+      MessageDlg('Alterado com sucesso!', mtInformation, [mbOK], 0)
+    end else
+    begin
+      MessageDlg('Falha ao alterar o cliente!', mtError, [mbOK], 0)
+    end;
+end;
+
+procedure TfrmCadastrarCliente.btnBaixarRelatoriosClick(Sender: TObject);
+begin
+  frmBaixarRelatorios:=TfrmBaixarRelatorios.Create(Self);
+  frmBaixarRelatorios.ShowModal;
+  frmBaixarRelatorios.Release;
+end;
+
+procedure TfrmCadastrarCliente.btnCancelarClick(Sender: TObject);
+begin
+  limparCampos;
+  
+  // Trocar de tela
+  pgcPrincipal.ActivePage := tbPesquisa;
+end;
+
+procedure TfrmCadastrarCliente.btnDetalharClick(Sender: TObject);
+begin
+  objCliente := TClienteModel.Create;
+  objCliente.Nome := edtPesquisar.Text;
+  quPesquisar := clienteController.Detalhar(objCliente);
+  dataSource.DataSet := quPesquisar;
+
+  With dbGridPesquisar do
+  begin
+    Columns[0].Title.Caption := 'ID';
+    Columns[1].Title.Caption := 'Nome:';
+    Columns[2].Title.Caption := 'Gênero:';
+    Columns[3].Title.Caption := 'Tipo doc:';
+    Columns[4].Title.Caption := 'Documento:';
+    Columns[5].Title.Caption := 'Telefone:';
+
+    Columns[0].Title.Alignment := taCenter;
+    Columns[1].Title.Alignment := taCenter;
+    Columns[2].Title.Alignment := taCenter;
+    Columns[3].Title.Alignment := taCenter;
+    Columns[4].Title.Alignment := taCenter;
+    Columns[5].Title.Alignment := taCenter;
+
+    Columns[0].Alignment := taCenter;
+    Columns[1].Alignment := taCenter;
+    Columns[2].Alignment := taCenter;
+    Columns[3].Alignment := taCenter;
+    Columns[4].Alignment := taCenter;
+    Columns[5].Alignment := taCenter;
+
+    Columns[0].Title.Color := $00F0E6E8;
+    Columns[1].Title.Color := $00F0E6E8;
+    Columns[2].Title.Color := $00F0E6E8;
+    Columns[3].Title.Color := $00F0E6E8;
+    Columns[4].Title.Color := $00F0E6E8;
+    Columns[5].Title.Color := $00F0E6E8;
+
+    Columns[0].Width := 50;
+    Columns[1].Width := 200;
+    Columns[2].Width := 100;
+    Columns[3].Width := 100;
+    Columns[4].Width := 150;
+    Columns[4].Width := 150;
+
+    Refresh;
+    Update;
+    end;
+end;
+
+procedure TfrmCadastrarCliente.btnExcluirClick(Sender: TObject);
+begin
+  objCliente := TClienteModel.Create;
+
+  // Obter o ID do cliente selecionado na grid
+  objCliente.ID := quPesquisar.FieldByName('id').AsInteger;
+
+  if clienteController.Excluir(objCliente) then
+  begin
+    MessageDlg('Cliente excluído com sucesso!', mtInformation, [mbOK], 0);
+    Pesquisar;
+  end
+  else
+    MessageDlg('Erro ao excluir o cliente!', mtError, [mbOK], 0);
+
+  // Libera o objeto cliente
+  objCliente.Free;
+end;
+
+end.

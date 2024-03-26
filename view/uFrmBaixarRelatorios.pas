@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, uClienteController, uClienteModel, uDmConexao, ADODB,
-  ComCtrls, Gauges;
+  ComCtrls, Gauges, uUtil;
 
 type
   TfrmBaixarRelatorios = class(TForm)
@@ -20,6 +20,8 @@ type
     quPesquisar: TADOQuery;
 
     procedure relatorioTxt;
+    procedure relatorioExcel;
+    procedure relatorioXml;
   public
     { Public declarations }
   end;
@@ -33,10 +35,51 @@ implementation
 
 procedure TfrmBaixarRelatorios.btnBaixarClick(Sender: TObject);
 begin
+ if rgTiposRelatorio.ItemIndex = 2 then begin
+   relatorioExcel;
+ end;
+
  if rgTiposRelatorio.ItemIndex = 1 then begin
    relatorioTxt;
  end;
 
+ if rgTiposRelatorio.ItemIndex = 0 then begin
+   relatorioExcel;
+ end;
+
+end;
+
+procedure TfrmBaixarRelatorios.relatorioExcel;
+var
+  totalRegistros, registroAtual: Integer;
+begin
+  try
+    objCliente := TClienteModel.Create;
+    quPesquisar := clienteController.Detalhar(objCliente);
+
+    // Inicializa a barra de progresso
+    totalRegistros := quPesquisar.RecordCount;
+    registroAtual := 0;
+    Gauge.Progress := 0;
+
+    //Colocar ponteiro no primeiro registro
+    quPesquisar.First;
+    while not quPesquisar.Eof do
+    begin
+      // Atualiza a barra de progresso
+      Inc(registroAtual);
+      Gauge.Progress := Round(registroAtual/totalRegistros * 100);
+      quPesquisar.Next;
+    end;
+
+    //Chamada da function lib Util
+    imprimirPlanilha(quPesquisar, 'Cliente', EmptyStr);
+
+    Application.MessageBox('Relatório emitido com sucesso!', 'Aviso', MB_ICONINFORMATION + MB_OK);
+  except
+    Application.MessageBox('Erro ao gerar relatório!', 'Erro', MB_ICONERROR + MB_OK);
+    Exit;
+  end;
 end;
 
 procedure TfrmBaixarRelatorios.relatorioTxt;
