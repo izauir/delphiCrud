@@ -130,4 +130,9 @@ begin
   end;
 end;
 
+procedure TfrmBaixarRelatorios.relatorioXml;
+begin
+
+end;
+
 end.
