@@ -16,7 +16,6 @@ type
     AGrid: TStringGrid;
     procedure importarTxt;
     procedure importarExcel;
-    procedure importarXml;
     procedure btnImportarClick(Sender: TObject);
   private
     { Private declarations }
@@ -199,11 +198,6 @@ begin
     odSubirArquivo.Free;
     CloseFile(Arquivo);
   end;
-end;
-
-procedure TfrmImportarRelatorios.importarXml;
-begin
-  //teste
 end;
 
 end.

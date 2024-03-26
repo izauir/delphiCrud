@@ -166,7 +166,7 @@ begin
      buscarPorID(objCliente);
 
       // Se o ID não existir, então insira o novo registro
-      if buscarPorID(objCliente) = False then
+      if buscarPorID then
       begin
         Close;
         sql.Clear;

@@ -16,7 +16,6 @@ type
     AGrid: TStringGrid;
     procedure importarTxt;
     procedure importarExcel;
-    procedure importarXml;
     procedure btnImportarClick(Sender: TObject);
   private
     { Private declarations }
@@ -76,14 +75,8 @@ begin
       for linhaPlanilha := 2 to RowCount - 1 do begin
         Inc(progressoAtual);
         objCliente := TClienteModel.Create;
-
-        if Trim(Cells[0, linhaPlanilha]) = '' then begin
-          Gauge.Progress := 100;
-          Application.MessageBox('Sua planilha possue campos em branco!', 'Erro', MB_ICONERROR + MB_OK);
-          Exit;
-        end;
-
-          objCliente.ID := StrToInt(Trim(Cells[0, linhaPlanilha]));
+        if Trim(Cells[0, linhaPlanilha]) = '' then
+          Continue;
 
           //Utilizar Agrid e Cells para pegar informações de excel
         if objClienteController.buscarPorId(objCliente) = false then begin
@@ -199,11 +192,6 @@ begin
     odSubirArquivo.Free;
     CloseFile(Arquivo);
   end;
-end;
-
-procedure TfrmImportarRelatorios.importarXml;
-begin
-  //teste
 end;
 
 end.

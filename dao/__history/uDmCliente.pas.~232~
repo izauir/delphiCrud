@@ -163,10 +163,10 @@ begin
     With sqlGravar do
     begin
       // Verificar se o ID já existe
-     buscarPorID(objCliente);
+     Pesquisar(objCliente.ID);
 
       // Se o ID não existir, então insira o novo registro
-      if buscarPorID(objCliente) = False then
+      if sqlPesquisar.IsEmpty then
       begin
         Close;
         sql.Clear;

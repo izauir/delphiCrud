@@ -53,15 +53,15 @@ object frmImportarRelatorios: TfrmImportarRelatorios
     OnClick = btnImportarClick
   end
   object AGrid: TStringGrid
-    Left = 256
-    Top = 158
+    Left = 232
+    Top = 143
     Width = 62
     Height = 46
     TabOrder = 2
     Visible = False
   end
   object odSubirArquivo: TOpenDialog
-    Left = 45
-    Top = 161
+    Left = 85
+    Top = 153
   end
 end

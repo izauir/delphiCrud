@@ -201,9 +201,4 @@ begin
   end;
 end;
 
-procedure TfrmImportarRelatorios.importarXml;
-begin
-  //teste
-end;
-
 end.

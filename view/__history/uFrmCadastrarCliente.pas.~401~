@@ -110,7 +110,7 @@ begin
      Exit;
   end;
 
-  if edtDocumento.Text = EmptyStr then begin
+  if not edtDocumento.Text = EmptyStr then begin
      Application.MessageBox('Campo documento não pode ser vazio!', 'Erro', MB_ICONEXCLAMATION + MB_OK);
      Result := False;
      Exit;
