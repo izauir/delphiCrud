@@ -9,6 +9,9 @@ Type
 
   private
     { private declarations }
+
+  public
+    { public declarations }
     FNome          :String;
     FID            :Integer;
     FGenero        :String;
@@ -16,11 +19,8 @@ Type
     FDocumento     :String;
     FTelefone      :String;
 
-  public
-    { public declarations }
     constructor Create(AID: Integer; ANome, AGenero, ATipoDocumento,
     ADocumento, ATelefone: string); overload;
-    
     property Nome           :String  read FNome           write FNome;
     property ID             :Integer read FID             write FID;
     property Genero         :String  read FGenero         write FGenero;
@@ -37,12 +37,12 @@ implementation
 constructor TClienteModel.Create(AID: Integer; ANome, AGenero, ATipoDocumento,
   ADocumento, ATelefone: string);
 begin
-  FID := AID;
-  FNome := ANome;
-  FGenero := AGenero;
-  FtipoDocumento := ATipoDocumento;
-  FDocumento := ADocumento;
-  FTelefone := ATelefone;
+  ID := AID;
+  Nome := ANome;
+  Genero := AGenero;
+  tipoDocumento := ATipoDocumento;
+  Documento := ADocumento;
+  Telefone := ATelefone;
 end;
 
 end.

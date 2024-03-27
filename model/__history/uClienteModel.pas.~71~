@@ -18,9 +18,6 @@ Type
 
   public
     { public declarations }
-    constructor Create(AID: Integer; ANome, AGenero, ATipoDocumento,
-    ADocumento, ATelefone: string); overload;
-    
     property Nome           :String  read FNome           write FNome;
     property ID             :Integer read FID             write FID;
     property Genero         :String  read FGenero         write FGenero;
@@ -28,6 +25,8 @@ Type
     property Documento      :String  read FDocumento      write FDocumento;
     property Telefone       :String  read FTelefone       write FTelefone;
 
+    constructor Create(AID: Integer; ANome, AGenero, ATipoDocumento,
+    ADocumento, ATelefone: string); overload;
   end;
 
 implementation

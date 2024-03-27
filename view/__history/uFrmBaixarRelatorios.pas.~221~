@@ -91,7 +91,7 @@ begin
     AssignFile(Arquivo, 'Clientes.txt');
     Rewrite(Arquivo);
 
-    objCliente := TClienteModel.Create;
+    objCliente := TClienteModel.Create();
     quPesquisar := clienteController.Detalhar(objCliente);
 
     // Inicializa a barra de progresso
@@ -103,16 +103,19 @@ begin
     begin
       while not Eof do
       begin
-        ID            := FieldByName('id').AsInteger;
-        Nome          := FieldByName('nome').AsString;
-        Genero        := FieldByName('genero').AsString;
-        TipoDocumento := FieldByName('tipoDocumento').AsString;
-        Documento     := FieldByName('documento').AsString;
-        Telefone      := FieldByName('telefone').AsString;
+        objCliente := TClienteModel.Create(
+        FieldByName('id').AsInteger,
+        FieldByName('nome').AsString,
+        FieldByName('genero').AsString,
+        FieldByName('tipoDocumento').AsString,
+        FieldByName('documento').AsString,
+        FieldByName('telefone').AsString
+        );
 
         // Escreve os dados do cliente no arquivo
         WriteLn(Arquivo, Format('%-5d %-50s %-3s %-5s %-15s %-11s',
-        [ID, Nome, Genero, TipoDocumento, Documento, Telefone]));
+        [objCliente.ID, objCliente.Nome, objCliente.Genero, objCliente.TipoDocumento,
+        objCliente.Documento, objCliente.Telefone]));
 
         // Atualiza a barra de progresso
         Inc(registroAtual);

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, uClienteController, uClienteModel, uDmConexao, ADODB,
-  ComCtrls, Gauges, uUtil;
+  ComCtrls, Gauges, uUtil, {lib XML} XmlIntf, XmlDoc;
 
 type
   TfrmBaixarRelatorios = class(TForm)
@@ -36,7 +36,7 @@ implementation
 procedure TfrmBaixarRelatorios.btnBaixarClick(Sender: TObject);
 begin
  if rgTiposRelatorio.ItemIndex = 2 then begin
-   relatorioExcel;
+   relatorioXml;
  end;
 
  if rgTiposRelatorio.ItemIndex = 1 then begin
@@ -91,7 +91,7 @@ begin
     AssignFile(Arquivo, 'Clientes.txt');
     Rewrite(Arquivo);
 
-    objCliente := TClienteModel.Create;
+    objCliente := TClienteModel.Create();
     quPesquisar := clienteController.Detalhar(objCliente);
 
     // Inicializa a barra de progresso
@@ -103,16 +103,19 @@ begin
     begin
       while not Eof do
       begin
-        ID := FieldByName('id').AsInteger;
-        Nome := FieldByName('nome').AsString;
-        Genero := FieldByName('genero').AsString;
-        TipoDocumento := FieldByName('tipoDocumento').AsString;
-        Documento := FieldByName('documento').AsString;
-        Telefone := FieldByName('telefone').AsString;
+        objCliente := TClienteModel.Create(
+        FieldByName('id').AsInteger,
+        FieldByName('nome').AsString,
+        FieldByName('genero').AsString,
+        FieldByName('tipoDocumento').AsString,
+        FieldByName('documento').AsString,
+        FieldByName('telefone').AsString
+        );
 
         // Escreve os dados do cliente no arquivo
-        WriteLn(Arquivo, Format('%-5d %-50s %-3s %-5s %-15s %-11s',
-        [ID, Nome, Genero, TipoDocumento, Documento, Telefone]));
+        //WriteLn(Arquivo, Format('%-5d %-50s %-3s %-5s %-15s %-11s',
+        //[ID, Nome, Genero, TipoDocumento, Documento, Telefone]));
+        Writeln(Arquivo, objCliente.Nome);
 
         // Atualiza a barra de progresso
         Inc(registroAtual);
@@ -123,6 +126,60 @@ begin
     end;
     // Fecha o arquivo
     CloseFile(Arquivo);
+    Application.MessageBox('Relatório emitido com sucesso!', 'Aviso', MB_ICONINFORMATION + MB_OK);
+  except
+    Application.MessageBox('Erro ao gerar relatório!', 'Erro', MB_ICONERROR + MB_OK);
+    Exit;
+  end;
+end;
+
+procedure TfrmBaixarRelatorios.relatorioXml;
+var
+  XMLDocument: IXMLDocument;
+  ClienteNode: IXMLNode;
+  progressoTotal, progressoAtual: integer;
+begin
+  try
+    XMLDocument := TXMLDocument.Create(nil);
+    XMLDocument.Active := True;
+    XMLDocument.Encoding := 'utf-8';
+    XMLDocument.Options := [doNodeAutoCreate, doNodeAutoIndent];
+    XMLDocument.DocumentElement := XMLDocument.CreateNode('Clientes', ntElement);
+
+    objCliente := TClienteModel.Create;
+    quPesquisar := clienteController.Detalhar(objCliente);
+
+    progressoTotal := quPesquisar.RecordCount;
+    progressoAtual := 0;
+    Gauge.Progress := 0;
+
+    quPesquisar.First;
+    with quPesquisar, objCliente, ClienteNode do
+    begin
+      while Eof = false do
+      begin
+        ID            := FieldByName('id').AsInteger;
+        Nome          := Trim(FieldByName('nome').AsString);
+        Genero        := Trim(FieldByName('genero').AsString);
+        TipoDocumento := Trim(FieldByName('tipoDocumento').AsString);
+        Documento     := Trim(FieldByName('documento').AsString);
+        Telefone      := Trim(FieldByName('telefone').AsString);
+
+        ClienteNode := XMLDocument.DocumentElement.AddChild('Cliente');
+        AddChild('ID').NodeValue            := ID;
+        AddChild('Nome').NodeValue          := Nome;
+        AddChild('Genero').NodeValue        := Genero;
+        AddChild('tipoDocumento').NodeValue := tipoDocumento;
+        AddChild('Documento').NodeValue     := Documento;
+        AddChild('Telefone').NodeValue      := Telefone;
+
+        Inc(progressoAtual);
+        Gauge.Progress := Round(progressoAtual/progressoTotal * 100);
+
+        Next;
+      end;
+    end;
+    XMLDocument.SaveToFile('C:\Users\supor\Desktop\Izauir\Cursos\cursoMVCBom\Clientes.xml');
     Application.MessageBox('Relatório emitido com sucesso!', 'Aviso', MB_ICONINFORMATION + MB_OK);
   except
     Application.MessageBox('Erro ao gerar relatório!', 'Erro', MB_ICONERROR + MB_OK);

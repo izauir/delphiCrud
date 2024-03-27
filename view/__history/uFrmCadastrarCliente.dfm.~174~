@@ -114,7 +114,7 @@ object frmCadastrarCliente: TfrmCadastrarCliente
         Width = 762
         Height = 215
         Align = alClient
-        DataSource = dsPesquisar
+        DataSource = dataSource
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -15
@@ -373,6 +373,10 @@ object frmCadastrarCliente: TfrmCadastrarCliente
       ImageIndex = 1
       ParentShowHint = False
       ShowHint = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblGenero: TLabel
         Left = 19
         Top = 133
@@ -455,7 +459,7 @@ object frmCadastrarCliente: TfrmCadastrarCliente
         Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = []
-        ItemHeight = 18
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 2
         Text = 'Selecione'
@@ -596,7 +600,7 @@ object frmCadastrarCliente: TfrmCadastrarCliente
         Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = []
-        ItemHeight = 18
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 6
         Text = 'Selecione'
@@ -607,7 +611,7 @@ object frmCadastrarCliente: TfrmCadastrarCliente
       end
     end
   end
-  object dsPesquisar: TDataSource
+  object dataSource: TDataSource
     Left = 680
     Top = 224
   end
