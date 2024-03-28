@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, uClienteController, uClienteModel, uDmConexao, ADODB,
   ComCtrls, Gauges, uUtil, {lib XML} XmlIntf, XmlDoc, RpRender, RpRenderPDF,
-  RpBase, RpSystem, RpDefine, RpRave;
+  RpBase, RpSystem, RpDefine, RpRave, DB, RpCon, RpConDS;
 
 type
   TfrmBaixarRelatorios = class(TForm)
@@ -15,8 +15,10 @@ type
     Gauge: TGauge;
     rvProject: TRvProject;
     rvSystem: TRvSystem;
-    rvRenderPdf: TRvRenderPDF;
+    sqlRave: TADOQuery;
+    rvDataSet: TRvDataSetConnection;
     procedure btnBaixarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
     objCliente: TClienteModel;
@@ -56,6 +58,11 @@ begin
    relatorioExcel;
  end;
 
+end;
+
+procedure TfrmBaixarRelatorios.FormCreate(Sender: TObject);
+begin
+  rvProject.ProjectFile := ExtractFilePath(Application.ExeName) + 'Clientes.rav';
 end;
 
 procedure TfrmBaixarRelatorios.relatorioExcel;
@@ -101,38 +108,11 @@ begin
       SystemPreview.FormHeight := 700;
       DoNativeOutput           := False;
       SystemSetups             := rvSystem.SystemSetups-[ssAllowSetup];
-    end;
 
-    rvProject.ProjectFile := ExtractFilePath(Application.ExeName) + 'Clientes.rav'; // Caminho para o arquivo .rav do relatório
-//    rvProject.Open;
+      Active := true;
 
-    objCliente := TClienteModel.Create;
-    quPesquisar := clienteController.Detalhar(objCliente);
-
-     with quPesquisar, objCliente do
-      begin
-        while not Eof do
-        begin
-          ID            := FieldByName('id').AsInteger;
-          Nome          := FieldByName('nome').AsString;
-          Genero        := FieldByName('genero').AsString;
-          TipoDocumento := FieldByName('tipoDocumento').AsString;
-          Documento     := FieldByName('documento').AsString;
-          Telefone      := FieldByName('telefone').AsString;
-
-          // Preencha os parâmetros do relatório com os valores apropriados
-          rvProject.SetParam('dtID', IntToStr(ID));
-          rvProject.SetParam('dtNome', Nome);
-          rvProject.SetParam('dtGenero', Genero);
-          rvProject.SetParam('dtTipoDoc', tipoDocumento);
-          rvProject.SetParam('dtDoc', Documento);
-          rvProject.SetParam('dtTelefone', Telefone);
-
-          Next;
-        end;
+      ExecuteReport('Clientes');
       end;
-      rvProject.Active := true;
-      rvProject.ExecuteReport('Clientes');
   except
     Application.MessageBox('Erro ao gerar relatório!', 'Erro', MB_ICONERROR + MB_OK);
     Exit;

@@ -2,42 +2,106 @@
 <Clientes>
   <Cliente>
     <ID>1</ID>
-    <Nome>Izauir</Nome>
+    <Nome>Teste</Nome>
     <Genero>M</Genero>
     <tipoDocumento>CPF</tipoDocumento>
     <Documento>47499123871</Documento>
-    <Telefone>11111111111</Telefone>
-  </Cliente>
-  <Cliente>
-    <ID>2</ID>
-    <Nome>Vini</Nome>
-    <Genero>M</Genero>
-    <tipoDocumento>CPF</tipoDocumento>
-    <Documento>47499123871</Documento>
-    <Telefone>11111111111</Telefone>
-  </Cliente>
-  <Cliente>
-    <ID>3</ID>
-    <Nome>Bruno Rodrigues</Nome>
-    <Genero>M</Genero>
-    <tipoDocumento>RG</tipoDocumento>
-    <Documento>47499123871</Documento>
-    <Telefone>111111111</Telefone>
+    <Telefone>111111</Telefone>
   </Cliente>
   <Cliente>
     <ID>4</ID>
-    <Nome>Bruno Rodrigues</Nome>
-    <Genero>M</Genero>
-    <tipoDocumento>RG</tipoDocumento>
-    <Documento>47499123871</Documento>
-    <Telefone>111111111</Telefone>
-  </Cliente>
-  <Cliente>
-    <ID>5</ID>
-    <Nome>Bruninho</Nome>
+    <Nome>Teste</Nome>
     <Genero>M</Genero>
     <tipoDocumento>CPF</tipoDocumento>
     <Documento>47499123871</Documento>
-    <Telefone>11111111111</Telefone>
+    <Telefone>111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>5</ID>
+    <Nome>Teste</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>CPF</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>6</ID>
+    <Nome>Teste</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>CPF</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>7</ID>
+    <Nome>Teste</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>CPF</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>8</ID>
+    <Nome>Teste</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>CPF</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>9</ID>
+    <Nome>Teste</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>CPF</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>11</ID>
+    <Nome>Teste</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>CPF</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>12</ID>
+    <Nome>Teste</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>CPF</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>13</ID>
+    <Nome>Teste</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>CPF</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>14</ID>
+    <Nome>Teste</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>CPF</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>15</ID>
+    <Nome>Teste</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>CPF</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>16</ID>
+    <Nome>Teste</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>CPF</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>111111</Telefone>
   </Cliente>
 </Clientes>

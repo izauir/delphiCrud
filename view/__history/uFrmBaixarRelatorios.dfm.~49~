@@ -14,7 +14,6 @@ object frmBaixarRelatorios: TfrmBaixarRelatorios
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
-  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Gauge: TGauge
@@ -74,7 +73,7 @@ object frmBaixarRelatorios: TfrmBaixarRelatorios
     Left = 320
     Top = 56
   end
-  object sqlRave: TADOQuery
+  object adoQuery: TADOQuery
     Connection = dmConexao.sqlConexao
     CursorType = ctStatic
     Parameters = <>
@@ -87,7 +86,7 @@ object frmBaixarRelatorios: TfrmBaixarRelatorios
   end
   object rvDataSet: TRvDataSetConnection
     RuntimeVisibility = rtDeveloper
-    DataSet = sqlRave
+    DataSet = adoQuery
     Left = 288
     Top = 168
   end
