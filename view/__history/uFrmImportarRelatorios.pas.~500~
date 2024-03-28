@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uClienteModel, StdCtrls, ExtCtrls, ComCtrls, {lib txt} Contnrs, uUtil, Gauges,
-  Grids, XmlIntf, XmlDoc;
+  Grids, {lib XML} XmlIntf, XmlDoc;
 
 type
   TfrmImportarRelatorios = class(TForm)
@@ -14,13 +14,14 @@ type
     btnImportar: TButton;
     Gauge: TGauge;
     AGrid: TStringGrid;
-    procedure importarTxt;
-    procedure importarExcel;
-    procedure importarXml;
     procedure btnImportarClick(Sender: TObject);
   private
     { Private declarations }
     objCliente: TClienteModel;
+
+    procedure importarTxt;
+    procedure importarExcel;
+    procedure importarXml;
   public
     { Public declarations }
   end;
@@ -208,7 +209,7 @@ end;
 procedure TfrmImportarRelatorios.importarXml;
 var
   XMLDocument: IXMLDocument;
-  iNode, cNode: IXMLNode;
+  ClienteNode: IXMLNode;
   Erros: String;
   listaObjCliente: TObjectList;
   objClienteController: TClienteController;
@@ -217,6 +218,7 @@ begin
   try
     odSubirArquivo.Filter := 'Arquivos XML|*.xml';
     if odSubirArquivo.Execute then begin
+       //Já recebe automaticamente o node Pai
        XMLDocument := TXMLDocument.Create(nil);
        XMLDocument.LoadFromFile(odSubirArquivo.FileName);
 
@@ -229,21 +231,21 @@ begin
 
        for i := 0 to totalLinhas - 1 do
        begin
-         iNode := XMLDocument.DocumentElement.ChildNodes[i];
+         ClienteNode := XMLDocument.DocumentElement.ChildNodes[i];
          objCliente := TClienteModel.Create; // Cria um novo objeto
 
-         objCliente.ID := StrToInt(iNode.ChildNodes['id'].Text);
+         objCliente.ID := StrToInt(ClienteNode.ChildNodes['ID'].Text);
          if objClienteController.buscarPorId(objCliente) = false then begin
-            if CheckCPFdv(iNode.ChildNodes['documento'].Text) = false then begin
+            if CheckCPFdv(ClienteNode.ChildNodes['Documento'].Text) = false then begin
                erros := erros + IntToStr(objCliente.ID) + ': Documento inválido!' + Chr(13);
                Continue;
             end;
 
-            objCliente.Nome          := iNode.ChildNodes['nome'].Text;
-            objCliente.Genero        := iNode.ChildNodes['genero'].Text;
-            objCliente.tipoDocumento := iNode.ChildNodes['tipoDocumento'].Text;
-            objCliente.Documento     := iNode.ChildNodes['documento'].Text;
-            objCliente.Telefone      := iNode.ChildNodes['telefone'].Text;
+            objCliente.Nome          := ClienteNode.ChildNodes['Nome'].Text;
+            objCliente.Genero        := ClienteNode.ChildNodes['Genero'].Text;
+            objCliente.tipoDocumento := ClienteNode.ChildNodes['tipoDocumento'].Text;
+            objCliente.Documento     := ClienteNode.ChildNodes['Documento'].Text;
+            objCliente.Telefone      := ClienteNode.ChildNodes['Telefone'].Text;
 
             listaObjCliente.Add(objCliente);
          end else

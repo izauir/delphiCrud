@@ -1,26 +1,43 @@
-<clientes>
-	<cliente>
-		<id>1</id>
-		<nome>Vinicius</nome>
-		<genero>M</genero>
-		<tipoDocumento>RG</tipoDocumento>
-		<documento>47499123871</documento>
-		<telefone>222222222</telefone>
-	</cliente>
-	<cliente>
-		<id>2</id>
-		<nome>Izauir</nome>
-		<genero>M</genero>
-		<tipoDocumento>RG</tipoDocumento>
-		<documento>47499123871</documento>
-		<telefone>222222222</telefone>
-	</cliente>
-	<cliente>
-		<id>3</id>
-		<nome>Bruno Rodrigues</nome>
-		<genero>M</genero>
-		<tipoDocumento>RG</tipoDocumento>
-		<documento>47499123871</documento>
-		<telefone>222222222</telefone>
-	</cliente>
-</clientes>
+<?xml version="1.0" encoding="utf-8"?>
+<Clientes>
+  <Cliente>
+    <ID>1</ID>
+    <Nome>Izauir</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>CPF</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>11111111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>2</ID>
+    <Nome>Vini</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>CPF</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>11111111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>3</ID>
+    <Nome>Bruno Rodrigues</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>RG</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>111111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>4</ID>
+    <Nome>Bruno Rodrigues</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>RG</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>111111111</Telefone>
+  </Cliente>
+  <Cliente>
+    <ID>5</ID>
+    <Nome>Bruninho</Nome>
+    <Genero>M</Genero>
+    <tipoDocumento>CPF</tipoDocumento>
+    <Documento>47499123871</Documento>
+    <Telefone>11111111111</Telefone>
+  </Cliente>
+</Clientes>

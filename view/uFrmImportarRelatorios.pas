@@ -234,18 +234,18 @@ begin
          ClienteNode := XMLDocument.DocumentElement.ChildNodes[i];
          objCliente := TClienteModel.Create; // Cria um novo objeto
 
-         objCliente.ID := StrToInt(ClienteNode.ChildNodes['id'].Text);
+         objCliente.ID := StrToInt(ClienteNode.ChildNodes['ID'].Text);
          if objClienteController.buscarPorId(objCliente) = false then begin
-            if CheckCPFdv(ClienteNode.ChildNodes['documento'].Text) = false then begin
+            if CheckCPFdv(ClienteNode.ChildNodes['Documento'].Text) = false then begin
                erros := erros + IntToStr(objCliente.ID) + ': Documento inválido!' + Chr(13);
                Continue;
             end;
 
-            objCliente.Nome          := ClienteNode.ChildNodes['nome'].Text;
-            objCliente.Genero        := ClienteNode.ChildNodes['genero'].Text;
+            objCliente.Nome          := ClienteNode.ChildNodes['Nome'].Text;
+            objCliente.Genero        := ClienteNode.ChildNodes['Genero'].Text;
             objCliente.tipoDocumento := ClienteNode.ChildNodes['tipoDocumento'].Text;
-            objCliente.Documento     := ClienteNode.ChildNodes['documento'].Text;
-            objCliente.Telefone      := ClienteNode.ChildNodes['telefone'].Text;
+            objCliente.Documento     := ClienteNode.ChildNodes['Documento'].Text;
+            objCliente.Telefone      := ClienteNode.ChildNodes['Telefone'].Text;
 
             listaObjCliente.Add(objCliente);
          end else

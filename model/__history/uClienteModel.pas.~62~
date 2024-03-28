@@ -20,7 +20,6 @@ Type
     { public declarations }
     constructor Create(AID: Integer; ANome, AGenero, ATipoDocumento,
     ADocumento, ATelefone: string); overload;
-    
     property Nome           :String  read FNome           write FNome;
     property ID             :Integer read FID             write FID;
     property Genero         :String  read FGenero         write FGenero;
@@ -35,12 +34,13 @@ implementation
 { TClienteModel }
 
 constructor TClienteModel.Create(AID: Integer; ANome, AGenero, ATipoDocumento,
-  ADocumento, ATelefone: string);
+  ADocumento, ATelefone: string); overload;
 begin
+  inherited Create;
   FID := AID;
   FNome := ANome;
   FGenero := AGenero;
-  FtipoDocumento := ATipoDocumento;
+  FTipoDocumento := ATipoDocumento;
   FDocumento := ADocumento;
   FTelefone := ATelefone;
 end;

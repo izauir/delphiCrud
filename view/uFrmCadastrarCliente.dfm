@@ -373,10 +373,6 @@ object frmCadastrarCliente: TfrmCadastrarCliente
       ImageIndex = 1
       ParentShowHint = False
       ShowHint = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object lblGenero: TLabel
         Left = 19
         Top = 133
@@ -459,7 +455,7 @@ object frmCadastrarCliente: TfrmCadastrarCliente
         Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 18
         ParentFont = False
         TabOrder = 2
         Text = 'Selecione'
@@ -600,7 +596,7 @@ object frmCadastrarCliente: TfrmCadastrarCliente
         Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = []
-        ItemHeight = 0
+        ItemHeight = 18
         ParentFont = False
         TabOrder = 6
         Text = 'Selecione'

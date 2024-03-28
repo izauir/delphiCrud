@@ -94,20 +94,23 @@ end;
 procedure TfrmBaixarRelatorios.relatorioRave;
 begin
   try
+
     with rvProject, rvSystem do
     begin
-      DefaultDest              := rdPreview;
-      SystemPreview.FormWidth  := 900;
-      SystemPreview.FormHeight := 700;
-      DoNativeOutput           := False;
-      SystemSetups             := rvSystem.SystemSetups-[ssAllowSetup];
+    DefaultDest              := rdPreview;
+    SystemPreview.FormWidth  := 900;
+    SystemPreview.FormHeight := 700;
+    DoNativeOutput           := False;
+    SystemSetups             := rvSystem.SystemSetups-[ssAllowSetup];
     end;
 
     rvProject.ProjectFile := ExtractFilePath(Application.ExeName) + 'Clientes.rav'; // Caminho para o arquivo .rav do relatório
-//    rvProject.Open;
+    rvProject.Open;
 
     objCliente := TClienteModel.Create;
     quPesquisar := clienteController.Detalhar(objCliente);
+
+    //rvProject.SelectReport('Clientes', False);
 
      with quPesquisar, objCliente do
       begin
