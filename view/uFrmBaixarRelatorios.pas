@@ -5,13 +5,17 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, uClienteController, uClienteModel, uDmConexao, ADODB,
-  ComCtrls, Gauges, uUtil, {lib XML} XmlIntf, XmlDoc;
+  ComCtrls, Gauges, uUtil, {lib XML} XmlIntf, XmlDoc, RpRender, RpRenderPDF,
+  RpBase, RpSystem, RpDefine, RpRave;
 
 type
   TfrmBaixarRelatorios = class(TForm)
     rgTiposRelatorio: TRadioGroup;
     btnBaixar: TButton;
     Gauge: TGauge;
+    rvProject: TRvProject;
+    rvSystem: TRvSystem;
+    rvRenderPdf: TRvRenderPDF;
     procedure btnBaixarClick(Sender: TObject);
   private
     { Private declarations }
@@ -22,6 +26,7 @@ type
     procedure relatorioTxt;
     procedure relatorioExcel;
     procedure relatorioXml;
+    procedure relatorioRave;
   public
     { Public declarations }
   end;
@@ -35,6 +40,10 @@ implementation
 
 procedure TfrmBaixarRelatorios.btnBaixarClick(Sender: TObject);
 begin
+ if rgTiposRelatorio.ItemIndex = 3 then begin
+   relatorioRave;
+ end;
+
  if rgTiposRelatorio.ItemIndex = 2 then begin
    relatorioXml;
  end;
@@ -76,6 +85,54 @@ begin
     imprimirPlanilha(quPesquisar, 'Cliente', EmptyStr);
 
     Application.MessageBox('Relatório emitido com sucesso!', 'Aviso', MB_ICONINFORMATION + MB_OK);
+  except
+    Application.MessageBox('Erro ao gerar relatório!', 'Erro', MB_ICONERROR + MB_OK);
+    Exit;
+  end;
+end;
+
+procedure TfrmBaixarRelatorios.relatorioRave;
+begin
+  try
+    with rvProject, rvSystem do
+    begin
+      DefaultDest              := rdPreview;
+      SystemPreview.FormWidth  := 900;
+      SystemPreview.FormHeight := 700;
+      DoNativeOutput           := False;
+      SystemSetups             := rvSystem.SystemSetups-[ssAllowSetup];
+    end;
+
+    rvProject.ProjectFile := ExtractFilePath(Application.ExeName) + 'Clientes.rav'; // Caminho para o arquivo .rav do relatório
+//    rvProject.Open;
+
+    objCliente := TClienteModel.Create;
+    quPesquisar := clienteController.Detalhar(objCliente);
+
+     with quPesquisar, objCliente do
+      begin
+        while not Eof do
+        begin
+          ID            := FieldByName('id').AsInteger;
+          Nome          := FieldByName('nome').AsString;
+          Genero        := FieldByName('genero').AsString;
+          TipoDocumento := FieldByName('tipoDocumento').AsString;
+          Documento     := FieldByName('documento').AsString;
+          Telefone      := FieldByName('telefone').AsString;
+
+          // Preencha os parâmetros do relatório com os valores apropriados
+          rvProject.SetParam('dtID', IntToStr(ID));
+          rvProject.SetParam('dtNome', Nome);
+          rvProject.SetParam('dtGenero', Genero);
+          rvProject.SetParam('dtTipoDoc', tipoDocumento);
+          rvProject.SetParam('dtDoc', Documento);
+          rvProject.SetParam('dtTelefone', Telefone);
+
+          Next;
+        end;
+      end;
+      rvProject.Active := true;
+      rvProject.ExecuteReport('Clientes');
   except
     Application.MessageBox('Erro ao gerar relatório!', 'Erro', MB_ICONERROR + MB_OK);
     Exit;
