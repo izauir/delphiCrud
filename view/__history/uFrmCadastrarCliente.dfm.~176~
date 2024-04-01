@@ -114,6 +114,7 @@ object frmCadastrarCliente: TfrmCadastrarCliente
         Width = 762
         Height = 215
         Align = alClient
+        DataSource = dataSource
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -15

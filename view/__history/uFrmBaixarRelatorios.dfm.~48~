@@ -14,7 +14,6 @@ object frmBaixarRelatorios: TfrmBaixarRelatorios
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
-  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Gauge: TGauge
@@ -74,21 +73,28 @@ object frmBaixarRelatorios: TfrmBaixarRelatorios
     Left = 320
     Top = 56
   end
-  object sqlRave: TADOQuery
+  object rvRenderPdf: TRvRenderPDF
+    DisplayName = 'Adobe Acrobat (PDF)'
+    FileExtension = '*.pdf'
+    EmbedFonts = False
+    ImageQuality = 90
+    MetafileDPI = 300
+    FontEncoding = feWinAnsiEncoding
+    DocInfo.Creator = 'Rave Reports (http://www.nevrona.com/rave)'
+    DocInfo.Producer = 'Nevrona Designs'
+    BufferDocument = True
+    DisableHyperlinks = False
+    Left = 320
+    Top = 88
+  end
+  object adoQuery: TADOQuery
     Connection = dmConexao.sqlConexao
-    CursorType = ctStatic
     Parameters = <>
     SQL.Strings = (
       
         'SELECT id, nome, genero, tipoDocumento, documento, telefone FROM' +
         ' cliente')
     Left = 320
-    Top = 168
-  end
-  object rvDataSet: TRvDataSetConnection
-    RuntimeVisibility = rtDeveloper
-    DataSet = sqlRave
-    Left = 288
-    Top = 168
+    Top = 128
   end
 end

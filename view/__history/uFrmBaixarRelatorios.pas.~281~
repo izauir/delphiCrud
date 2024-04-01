@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, uClienteController, uClienteModel, uDmConexao, ADODB,
   ComCtrls, Gauges, uUtil, {lib XML} XmlIntf, XmlDoc, RpRender, RpRenderPDF,
-  RpBase, RpSystem, RpDefine, RpRave;
+  RpBase, RpSystem, RpDefine, RpRave, DB;
 
 type
   TfrmBaixarRelatorios = class(TForm)
@@ -16,6 +16,7 @@ type
     rvProject: TRvProject;
     rvSystem: TRvSystem;
     rvRenderPdf: TRvRenderPDF;
+    adoQuery: TADOQuery;
     procedure btnBaixarClick(Sender: TObject);
   private
     { Private declarations }
@@ -94,7 +95,6 @@ end;
 procedure TfrmBaixarRelatorios.relatorioRave;
 begin
   try
-
     with rvProject, rvSystem do
     begin
       DefaultDest              := rdPreview;
@@ -104,12 +104,13 @@ begin
       SystemSetups             := rvSystem.SystemSetups-[ssAllowSetup];
     end;
 
-    rvProject.ProjectFile := ExtractFilePath(Application.ExeName) + 'Clientes.rav'; // Caminho para o arquivo .rav do relatório
-//    rvProject.Open;
+    rvProject.ProjectFile := ExtractFilePath(Application.ExeName) + 'Clientes.rav';
+    rvProject.Active := true;
 
     objCliente := TClienteModel.Create;
     quPesquisar := clienteController.Detalhar(objCliente);
 
+    quPesquisar.First;
      with quPesquisar, objCliente do
       begin
         while not Eof do
@@ -132,7 +133,6 @@ begin
           Next;
         end;
       end;
-      rvProject.Active := true;
       rvProject.ExecuteReport('Clientes');
   except
     Application.MessageBox('Erro ao gerar relatório!', 'Erro', MB_ICONERROR + MB_OK);
