@@ -5,7 +5,7 @@ object frmCadastrarCliente: TfrmCadastrarCliente
   BorderIcons = [biMinimize]
   Caption = 'Cadastrar Cliente'
   ClientHeight = 426
-  ClientWidth = 770
+  ClientWidth = 769
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,18 +20,19 @@ object frmCadastrarCliente: TfrmCadastrarCliente
   object pnlRodape: TPanel
     Left = 0
     Top = 385
-    Width = 770
+    Width = 769
     Height = 41
     Align = alBottom
     BevelOuter = bvNone
     ParentShowHint = False
     ShowHint = False
     TabOrder = 0
+    ExplicitWidth = 770
     DesignSize = (
-      770
+      769
       41)
     object btnFechar: TButton
-      Left = 680
+      Left = 679
       Top = 6
       Width = 75
       Height = 25
@@ -45,29 +46,33 @@ object frmCadastrarCliente: TfrmCadastrarCliente
       ParentFont = False
       TabOrder = 0
       OnClick = btnFecharClick
+      ExplicitLeft = 680
     end
   end
   object pgcPrincipal: TPageControl
     Left = 0
     Top = 0
-    Width = 770
+    Width = 769
     Height = 385
     ActivePage = tbPesquisa
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 770
     object tbPesquisa: TTabSheet
       Caption = 'Pesquisar'
+      ExplicitWidth = 762
       object pnlFiltro: TPanel
         Left = 0
         Top = 0
-        Width = 762
+        Width = 761
         Height = 65
         Align = alTop
         Color = clMedGray
         ParentBackground = False
         TabOrder = 0
+        ExplicitWidth = 762
         DesignSize = (
-          762
+          761
           65)
         object edtPesquisar: TLabeledEdit
           Left = 24
@@ -92,7 +97,7 @@ object frmCadastrarCliente: TfrmCadastrarCliente
           TabOrder = 0
         end
         object btnPesquisar: TButton
-          Left = 528
+          Left = 527
           Top = 20
           Width = 212
           Height = 25
@@ -106,12 +111,13 @@ object frmCadastrarCliente: TfrmCadastrarCliente
           ParentFont = False
           TabOrder = 1
           OnClick = btnPesquisarClick
+          ExplicitLeft = 528
         end
       end
       object dbGridPesquisar: TDBGrid
         Left = 0
         Top = 65
-        Width = 762
+        Width = 761
         Height = 215
         Align = alClient
         DataSource = dataSource
@@ -131,17 +137,18 @@ object frmCadastrarCliente: TfrmCadastrarCliente
       object pnlBtnsPesquisar: TPanel
         Left = 0
         Top = 280
-        Width = 762
+        Width = 761
         Height = 77
         Align = alBottom
         Color = clMenuHighlight
         ParentBackground = False
         TabOrder = 2
+        ExplicitWidth = 762
         DesignSize = (
-          762
+          761
           77)
         object btnNovo: TButton
-          Left = 483
+          Left = 482
           Top = 24
           Width = 75
           Height = 30
@@ -155,9 +162,10 @@ object frmCadastrarCliente: TfrmCadastrarCliente
           ParentFont = False
           TabOrder = 0
           OnClick = btnNovoClick
+          ExplicitLeft = 483
         end
         object btnDetalhar: TButton
-          Left = 579
+          Left = 578
           Top = 24
           Width = 75
           Height = 30
@@ -172,9 +180,10 @@ object frmCadastrarCliente: TfrmCadastrarCliente
           ParentFont = False
           TabOrder = 1
           OnClick = btnDetalharClick
+          ExplicitLeft = 579
         end
         object btnExcluir: TButton
-          Left = 676
+          Left = 675
           Top = 24
           Width = 75
           Height = 30
@@ -189,6 +198,7 @@ object frmCadastrarCliente: TfrmCadastrarCliente
           ParentFont = False
           TabOrder = 2
           OnClick = btnExcluirClick
+          ExplicitLeft = 676
         end
         object btnImportarRelatorios: TBitBtn
           Left = 120
@@ -373,6 +383,10 @@ object frmCadastrarCliente: TfrmCadastrarCliente
       ImageIndex = 1
       ParentShowHint = False
       ShowHint = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblGenero: TLabel
         Left = 19
         Top = 133
@@ -455,7 +469,7 @@ object frmCadastrarCliente: TfrmCadastrarCliente
         Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = []
-        ItemHeight = 18
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 2
         Text = 'Selecione'
@@ -512,17 +526,18 @@ object frmCadastrarCliente: TfrmCadastrarCliente
       object pnlBtnsCadastrar: TPanel
         Left = 0
         Top = 297
-        Width = 762
+        Width = 761
         Height = 60
         Align = alBottom
         Color = clMenuHighlight
         ParentBackground = False
         TabOrder = 5
+        ExplicitWidth = 762
         DesignSize = (
-          762
+          761
           60)
         object btnGravar: TButton
-          Left = 585
+          Left = 584
           Top = 17
           Width = 75
           Height = 25
@@ -536,9 +551,10 @@ object frmCadastrarCliente: TfrmCadastrarCliente
           ParentFont = False
           TabOrder = 0
           OnClick = btnGravarClick
+          ExplicitLeft = 585
         end
         object btnAlterar: TButton
-          Left = 495
+          Left = 494
           Top = 17
           Width = 75
           Height = 25
@@ -552,9 +568,10 @@ object frmCadastrarCliente: TfrmCadastrarCliente
           ParentFont = False
           TabOrder = 1
           OnClick = btnAlterarClick
+          ExplicitLeft = 495
         end
         object btnListar: TButton
-          Left = 400
+          Left = 399
           Top = 17
           Width = 75
           Height = 25
@@ -568,9 +585,10 @@ object frmCadastrarCliente: TfrmCadastrarCliente
           ParentFont = False
           TabOrder = 2
           OnClick = btnListarClick
+          ExplicitLeft = 400
         end
         object btnCancelar: TButton
-          Left = 676
+          Left = 675
           Top = 17
           Width = 75
           Height = 25
@@ -584,6 +602,7 @@ object frmCadastrarCliente: TfrmCadastrarCliente
           ParentFont = False
           TabOrder = 3
           OnClick = btnCancelarClick
+          ExplicitLeft = 676
         end
       end
       object cbTipoDocumento: TComboBox
@@ -596,7 +615,7 @@ object frmCadastrarCliente: TfrmCadastrarCliente
         Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = []
-        ItemHeight = 18
+        ItemHeight = 0
         ParentFont = False
         TabOrder = 6
         Text = 'Selecione'
